@@ -52,13 +52,13 @@ const PRESET_SCENARIOS = [
     category: CATEGORIES[1],
     account: ACCOUNTS[2],
   },
-  {
-    name: "Blinkit",
-    amount: "1250",
-    note: "Blinkit",
-    category: CATEGORIES[2],
-    account: ACCOUNTS[1],
-  },
+  // {
+  //   name: "Blinkit",
+  //   amount: "1250",
+  //   note: "Blinkit",
+  //   category: CATEGORIES[2],
+  //   account: ACCOUNTS[1],
+  // },
   {
     name: "Uber Ride",
     amount: "280",

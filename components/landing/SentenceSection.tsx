@@ -4,129 +4,107 @@ import { useState } from "react"
 import { motion, AnimatePresence, useReducedMotion } from "motion/react"
 import {
   Check,
-  ChevronDown,
-  Calendar,
   UtensilsCrossed,
   Coffee,
   ShoppingBag,
   Car,
-  Clock,
   ArrowRight,
+  Sparkles,
 } from "lucide-react"
 
-type TokenType = "amount" | "category" | "merchant" | "account"
-
-interface Preset {
+interface Scenario {
   id: string
   label: string
   amount: string
+  amountNum: number
   category: string
   merchant: string
   account: string
+  icon: typeof UtensilsCrossed
   categorySpent: string
   categoryLimit: string
   categoryPercent: number
-  accountAfter: string
-  icon: typeof UtensilsCrossed
+  accountBalance: string
+  todayTotalBefore: string
+  todayTotalAfter: string
 }
 
-const PRESETS: Preset[] = [
+const SCENARIOS: Scenario[] = [
   {
     id: "burger-king",
-    label: "Burger King",
+    label: "Lunch with team",
     amount: "₹450",
-    category: "Food",
+    amountNum: 450,
+    category: "Food & Dining",
     merchant: "Burger King",
     account: "HDFC Bank",
+    icon: UtensilsCrossed,
     categorySpent: "₹14,200",
     categoryLimit: "₹20,000",
     categoryPercent: 71,
-    accountAfter: "₹1,42,350",
-    icon: UtensilsCrossed,
+    accountBalance: "₹1,42,350",
+    todayTotalBefore: "₹1,240",
+    todayTotalAfter: "₹1,690",
   },
   {
     id: "chai-point",
-    label: "Chai Point",
+    label: "Morning chai",
     amount: "₹40",
-    category: "Snacks",
+    amountNum: 40,
+    category: "Snacks & Coffee",
     merchant: "Chai Point",
     account: "Cash Wallet",
+    icon: Coffee,
     categorySpent: "₹2,840",
     categoryLimit: "₹4,000",
     categoryPercent: 71,
-    accountAfter: "₹4,160",
-    icon: Coffee,
+    accountBalance: "₹4,160",
+    todayTotalBefore: "₹1,240",
+    todayTotalAfter: "₹1,280",
   },
   {
     id: "blinkit",
-    label: "Blinkit",
+    label: "Quick groceries",
     amount: "₹1,250",
+    amountNum: 1250,
     category: "Groceries",
     merchant: "Blinkit",
     account: "Fi UPI",
+    icon: ShoppingBag,
     categorySpent: "₹8,450",
     categoryLimit: "₹12,000",
     categoryPercent: 70,
-    accountAfter: "₹63,750",
-    icon: ShoppingBag,
+    accountBalance: "₹63,750",
+    todayTotalBefore: "₹1,240",
+    todayTotalAfter: "₹2,490",
   },
   {
     id: "uber",
-    label: "Uber",
+    label: "Late night cab",
     amount: "₹280",
-    category: "Travel",
+    amountNum: 280,
+    category: "Travel & Commute",
     merchant: "Uber",
     account: "SBI Card",
+    icon: Car,
     categorySpent: "₹4,800",
     categoryLimit: "₹8,000",
     categoryPercent: 60,
-    accountAfter: "₹18,120",
-    icon: Car,
+    accountBalance: "₹18,120",
+    todayTotalBefore: "₹1,240",
+    todayTotalAfter: "₹1,520",
   },
 ]
 
-const TOKEN_OPTIONS = {
-  amount: [
-    { label: "₹40", num: 40 },
-    { label: "₹150", num: 150 },
-    { label: "₹450", num: 450 },
-    { label: "₹850", num: 850 },
-    { label: "₹1,250", num: 1250 },
-  ],
-  category: [
-    { label: "Food", icon: UtensilsCrossed, limit: "₹20,000", spent: "₹14,200", percent: 71 },
-    { label: "Snacks", icon: Coffee, limit: "₹4,000", spent: "₹2,840", percent: 71 },
-    { label: "Groceries", icon: ShoppingBag, limit: "₹12,000", spent: "₹8,450", percent: 70 },
-    { label: "Travel", icon: Car, limit: "₹8,000", spent: "₹4,800", percent: 60 },
-  ],
-  merchant: ["Burger King", "Chai Point", "Blinkit", "Uber", "Starbucks"],
-  account: [
-    { name: "HDFC Bank", balance: "₹1,42,350" },
-    { name: "Cash Wallet", balance: "₹4,160" },
-    { name: "Fi UPI", balance: "₹63,750" },
-    { name: "SBI Card", balance: "₹18,120" },
-  ],
-}
-
 export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
   const [activeIdx, setActiveIdx] = useState(0)
-  const [activeToken, setActiveToken] = useState<TokenType | null>("category")
-  const [amount, setAmount] = useState(PRESETS[0].amount)
-  const [category, setCategory] = useState(PRESETS[0].category)
-  const [merchant, setMerchant] = useState(PRESETS[0].merchant)
-  const [account, setAccount] = useState(PRESETS[0].account)
-  const [icon, setIcon] = useState<typeof UtensilsCrossed>(PRESETS[0].icon)
   const [saved, setSaved] = useState(false)
   const reduceMotion = useReducedMotion()
+  const current = SCENARIOS[activeIdx]
+  const IconComponent = current.icon
 
-  const handleSelectPreset = (idx: number) => {
+  const handleSelectScenario = (idx: number) => {
     setActiveIdx(idx)
-    const p = PRESETS[idx]
-    setAmount(p.amount)
-    setCategory(p.category)
-    setMerchant(p.merchant)
-    setAccount(p.account)
-    setIcon(p.icon)
     setSaved(false)
   }
 
@@ -135,389 +113,222 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
     setTimeout(() => setSaved(false), 2400)
   }
 
-  const IconComponent = icon
-
   return (
     <section id="sentence" className="py-20 lg:py-28 overflow-hidden">
       <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
         {/* Section Header */}
-        <motion.div
-          className="max-w-[560px]"
-          initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <p className="lp-section-label">
+        <div className="mx-auto max-w-[680px] text-center">
+          <p className="lp-section-label justify-center">
             <span className="inline-block h-1 w-1 rounded-full bg-lp-em" />
-            Quick logging
+            Natural Language Logging
           </p>
-          <h2 className="lp-display mt-4 text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
-            Add spends like
-            <br />
-            writing a note.
+          <h2 className="lp-display mt-4 text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[46px] lg:text-[54px]">
+            Add spends like writing a note.
           </h2>
-          <p className="mt-4 max-w-[480px] text-base leading-relaxed text-lp-ink-soft sm:text-lg">
-            One sentence, a few taps, and your expense is saved — without a form for every coffee.
+          <p className="mx-auto mt-4 max-w-[520px] text-base leading-relaxed text-lp-ink-soft sm:text-lg">
+            One short sentence. MoneySpent parses amount, category, and account in real time—instantly balancing your ledger and budgets.
           </p>
-        </motion.div>
+        </div>
 
-        {/* ── Side-by-Side Comparison: Typical Apps vs MoneySpent ── */}
-        <div className="mt-12 grid gap-5 md:grid-cols-2 md:gap-6 items-stretch">
-          {/* Card 1: Typical Apps (Friction & Bureaucracy) */}
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col justify-between rounded-2xl sm:rounded-3xl border border-lp-line bg-lp-bg-2/50 p-6 sm:p-8"
-          >
-            <div>
-              <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex rounded-md bg-lp-ink/6 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-lp-ink-mute">
-                  Typical apps
-                </span>
-                <span className="flex items-center gap-1 text-[11px] font-medium text-lp-ink-mute">
-                  <Clock className="h-3 w-3" />
-                  ~28s per coffee
-                </span>
-              </div>
-
-              <h3 className="lp-display mt-4 text-xl font-semibold text-lp-ink sm:text-2xl">
-                A form for every coffee.
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-lp-ink-mute">
-                Amount, category, payment method, merchant, note, date. Six mandatory dropdowns
-                before you can even save.
-              </p>
-
-              {/* The Static Clunky Form Fields */}
-              <div className="mt-6 flex flex-col gap-2.5">
-                <div className="flex items-center justify-between rounded-xl border border-lp-line bg-lp-card px-3.5 py-2.5 text-xs shadow-2xs">
-                  <span className="font-semibold uppercase tracking-[0.05em] text-lp-ink-mute">
-                    Amount <span className="text-rose-500">*</span>
-                  </span>
-                  <span className="font-mono font-medium text-lp-ink-tert">₹0.00</span>
-                </div>
-
-                <div className="flex items-center justify-between rounded-xl border border-lp-line bg-lp-card px-3.5 py-2.5 text-xs shadow-2xs">
-                  <span className="font-semibold uppercase tracking-[0.05em] text-lp-ink-mute">
-                    Category <span className="text-rose-500">*</span>
-                  </span>
-                  <span className="flex items-center gap-1 text-lp-ink-tert">
-                    Select category… <ChevronDown className="h-3.5 w-3.5 opacity-50" />
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between rounded-xl border border-lp-line bg-lp-card px-3.5 py-2.5 text-xs shadow-2xs">
-                  <span className="font-semibold uppercase tracking-[0.05em] text-lp-ink-mute">
-                    Account <span className="text-rose-500">*</span>
-                  </span>
-                  <span className="flex items-center gap-1 text-lp-ink-tert">
-                    Choose account… <ChevronDown className="h-3.5 w-3.5 opacity-50" />
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between rounded-xl border border-lp-line bg-lp-card px-3.5 py-2.5 text-xs shadow-2xs">
-                  <span className="font-semibold uppercase tracking-[0.05em] text-lp-ink-mute">
-                    Merchant
-                  </span>
-                  <span className="text-lp-ink-tert">Optional name…</span>
-                </div>
-
-                <div className="flex items-center justify-between rounded-xl border border-lp-line bg-lp-card px-3.5 py-2.5 text-xs shadow-2xs">
-                  <span className="font-semibold uppercase tracking-[0.05em] text-lp-ink-mute">
-                    Date & Time
-                  </span>
-                  <span className="flex items-center gap-1 text-lp-ink-tert">
-                    <Calendar className="h-3 w-3 opacity-60" /> Today, 8:42 pm
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Clunky Save Button & Abandonment note */}
-            <div className="mt-6 border-t border-lp-line/70 pt-4">
-              <div className="rounded-xl border border-lp-line bg-lp-ink/5 py-2.5 text-center text-xs font-semibold text-lp-ink-mute">
-                Save Transaction (Required fields missing)
-              </div>
-              <p className="mt-2.5 text-center text-[11px] text-lp-ink-tert">
-                High friction leads to skipped entries and abandoned tracking.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Card 2: MoneySpent (Fully Interactive Sentence Studio) */}
-          <motion.div
-            initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className={`flex flex-col justify-between rounded-2xl sm:rounded-3xl border transition-all duration-300 p-6 sm:p-8 bg-lp-card ${
-              saved
-                ? "border-lp-em ring-2 ring-lp-em/30 shadow-[var(--lp-shadow-md)]"
-                : "border-lp-line shadow-[var(--lp-shadow-sm)] hover:shadow-[var(--lp-shadow-md)]"
-            }`}
-          >
-            <div>
-              <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex rounded-md bg-lp-em-soft px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-lp-em-deep">
-                  MoneySpent
-                </span>
-                <span className="flex items-center gap-1 text-[11px] font-semibold text-lp-em">
-                  <Check className="h-3 w-3" />
-                  ~2s instant flow
-                </span>
-              </div>
-
-              <h3 className="lp-display mt-4 text-xl font-semibold text-lp-ink sm:text-2xl">
-                One sentence. Done.
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-lp-ink-mute">
-                Tap any highlighted word below to adjust tokens in real time, or pick from quick presets.
-              </p>
-
-              {/* Preset Quick Switcher Chips */}
-              <div className="mt-4 flex flex-wrap items-center gap-1.5">
-                {PRESETS.map((p, idx) => {
-                  const active = activeIdx === idx
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => handleSelectPreset(idx)}
-                      className={`rounded-lg px-2.5 py-1 text-[11px] sm:text-[12px] font-medium transition-all duration-200 cursor-pointer ${
-                        active
-                          ? "bg-lp-ink text-lp-bg shadow-xs font-semibold"
-                          : "border border-lp-line bg-lp-bg-2/60 text-lp-ink-soft hover:bg-lp-bg-2 hover:text-lp-ink"
-                      }`}
-                    >
-                      {p.label}
-                    </button>
-                  )
-                })}
-              </div>
-
-              {/* The Tactile Interactive Sentence Box */}
-              <div className="mt-5 rounded-2xl border border-lp-line/80 bg-lp-bg-2/30 p-4 sm:p-5">
-                <div className="lp-serif text-[18px] sm:text-[21px] font-medium leading-[1.8] text-lp-ink">
-                  I spent{" "}
-                  {/* Amount Token */}
-                  <button
-                    type="button"
-                    onClick={() => setActiveToken(activeToken === "amount" ? null : "amount")}
-                    className={`inline-flex items-center gap-1 rounded-lg px-2 py-0.5 font-bold transition-all cursor-pointer ${
-                      activeToken === "amount"
-                        ? "bg-lp-em text-white shadow-xs scale-[1.04]"
-                        : "bg-lp-em-tint text-lp-em-deep border border-lp-em/30 hover:border-lp-em hover:scale-[1.02]"
-                    }`}
-                  >
-                    <span>{amount}</span>
-                    <ChevronDown className="h-3 w-3 opacity-60" />
-                  </button>{" "}
-                  on{" "}
-                  {/* Category Token */}
-                  <button
-                    type="button"
-                    onClick={() => setActiveToken(activeToken === "category" ? null : "category")}
-                    className={`inline-flex items-center gap-1 rounded-lg px-2 py-0.5 font-bold transition-all cursor-pointer ${
-                      activeToken === "category"
-                        ? "bg-lp-em text-white shadow-xs scale-[1.04]"
-                        : "bg-lp-em-tint text-lp-em-deep border border-lp-em/30 hover:border-lp-em hover:scale-[1.02]"
-                    }`}
-                  >
-                    <span>{category}</span>
-                    <ChevronDown className="h-3 w-3 opacity-60" />
-                  </button>{" "}
-                  at{" "}
-                  {/* Merchant Token */}
-                  <button
-                    type="button"
-                    onClick={() => setActiveToken(activeToken === "merchant" ? null : "merchant")}
-                    className={`inline-flex items-center gap-1 rounded-lg px-2 py-0.5 font-bold transition-all cursor-pointer ${
-                      activeToken === "merchant"
-                        ? "bg-lp-ink text-lp-bg shadow-xs scale-[1.04]"
-                        : "bg-lp-bg-2 text-lp-ink border border-lp-line hover:border-lp-line-strong hover:scale-[1.02]"
-                    }`}
-                  >
-                    <span>{merchant}</span>
-                    <ChevronDown className="h-3 w-3 opacity-60" />
-                  </button>{" "}
-                  paid with{" "}
-                  {/* Account Token */}
-                  <button
-                    type="button"
-                    onClick={() => setActiveToken(activeToken === "account" ? null : "account")}
-                    className={`inline-flex items-center gap-1 rounded-lg px-2 py-0.5 font-bold transition-all cursor-pointer ${
-                      activeToken === "account"
-                        ? "bg-lp-ink text-lp-bg shadow-xs scale-[1.04]"
-                        : "bg-lp-bg-2 text-lp-ink border border-lp-line hover:border-lp-line-strong hover:scale-[1.02]"
-                    }`}
-                  >
-                    <span>{account}</span>
-                    <ChevronDown className="h-3 w-3 opacity-60" />
-                  </button>
-                  .
-                </div>
-
-                {/* Inline Tactile Token Drawer */}
-                <AnimatePresence>
-                  {activeToken && (
-                    <motion.div
-                      initial={reduceMotion ? undefined : { opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={reduceMotion ? undefined : { opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="mt-3.5 border-t border-lp-line/70 pt-3"
-                    >
-                      <div className="flex items-center justify-between text-[11px] font-semibold text-lp-ink-mute mb-2">
-                        <span className="uppercase tracking-wider">
-                          Choose {activeToken}:
-                        </span>
-                        <span className="text-[10px] text-lp-em font-medium">Click to apply</span>
-                      </div>
-
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        {activeToken === "amount" &&
-                          TOKEN_OPTIONS.amount.map((opt) => (
-                            <button
-                              key={opt.label}
-                              type="button"
-                              onClick={() => {
-                                setAmount(opt.label)
-                                setSaved(false)
-                              }}
-                              className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition-all cursor-pointer ${
-                                amount === opt.label
-                                  ? "bg-lp-em text-white shadow-2xs"
-                                  : "bg-lp-card border border-lp-line text-lp-ink hover:border-lp-line-strong"
-                              }`}
-                            >
-                              {opt.label}
-                            </button>
-                          ))}
-
-                        {activeToken === "category" &&
-                          TOKEN_OPTIONS.category.map((opt) => (
-                            <button
-                              key={opt.label}
-                              type="button"
-                              onClick={() => {
-                                setCategory(opt.label)
-                                setIcon(opt.icon)
-                                setSaved(false)
-                              }}
-                              className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition-all cursor-pointer ${
-                                category === opt.label
-                                  ? "bg-lp-em text-white shadow-2xs"
-                                  : "bg-lp-card border border-lp-line text-lp-ink hover:border-lp-line-strong"
-                              }`}
-                            >
-                              {opt.label}
-                            </button>
-                          ))}
-
-                        {activeToken === "merchant" &&
-                          TOKEN_OPTIONS.merchant.map((m) => (
-                            <button
-                              key={m}
-                              type="button"
-                              onClick={() => {
-                                setMerchant(m)
-                                setSaved(false)
-                              }}
-                              className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition-all cursor-pointer ${
-                                merchant === m
-                                  ? "bg-lp-ink text-lp-bg shadow-2xs"
-                                  : "bg-lp-card border border-lp-line text-lp-ink hover:border-lp-line-strong"
-                              }`}
-                            >
-                              {m}
-                            </button>
-                          ))}
-
-                        {activeToken === "account" &&
-                          TOKEN_OPTIONS.account.map((acc) => (
-                            <button
-                              key={acc.name}
-                              type="button"
-                              onClick={() => {
-                                setAccount(acc.name)
-                                setSaved(false)
-                              }}
-                              className={`rounded-lg px-2.5 py-1 text-xs font-semibold transition-all cursor-pointer ${
-                                account === acc.name
-                                  ? "bg-lp-ink text-lp-bg shadow-2xs"
-                                  : "bg-lp-card border border-lp-line text-lp-ink hover:border-lp-line-strong"
-                              }`}
-                            >
-                              {acc.name}
-                            </button>
-                          ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* Real-time Parsed Transaction Card Result */}
-              <div className="mt-3.5 rounded-xl border border-lp-line bg-lp-card p-3 shadow-2xs">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-lp-em-soft text-lp-em">
-                      <IconComponent className="h-4 w-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="truncate text-[12px] font-semibold text-lp-ink">
-                        {merchant}
-                      </div>
-                      <div className="truncate text-[10px] text-lp-ink-mute">
-                        {category} · {account}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <span className="text-[13px] font-bold tabular-nums text-rose-600 dark:text-rose-400">
-                      −{amount}
-                    </span>
-                    <div className="text-[10px] text-lp-em font-medium flex items-center gap-1 justify-end">
-                      <Check className="h-2.5 w-2.5" />
-                      <span>{saved ? "Synced & saved" : "Live parsed"}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Interactive Action Footer */}
-            <div className="mt-6 border-t border-lp-line/80 pt-4 flex flex-wrap items-center justify-between gap-2.5">
-              <span className="text-[12px] text-lp-ink-mute">
-                {saved ? "Transaction logged to your ledger!" : "4 taps to amount + save."}
+        {/* ── Single Focused Stageshow Product Stage (Linear / Copilot Craft) ── */}
+        <div className="relative mx-auto mt-12 max-w-[960px] rounded-3xl sm:rounded-[32px] border border-lp-line bg-lp-card shadow-[var(--lp-shadow-md)] overflow-hidden">
+          {/* Stage Top Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-lp-line/80 px-6 py-4 sm:px-8 bg-lp-bg-2/40">
+            <div className="flex items-center gap-2.5">
+              <span className="h-2 w-2 rounded-full bg-lp-em" />
+              <span className="text-xs font-semibold text-lp-ink">MoneySpent Quick Note</span>
+              <span className="hidden sm:inline-block text-[11px] text-lp-ink-mute">
+                · Interactive Preview
               </span>
+            </div>
+
+            {/* Scenario Switcher Tabs */}
+            <div className="flex items-center gap-1.5 rounded-xl border border-lp-line/70 bg-lp-card p-1 shadow-2xs">
+              {SCENARIOS.map((s, idx) => {
+                const active = activeIdx === idx
+                return (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => handleSelectScenario(idx)}
+                    className={`rounded-lg px-3 py-1.5 text-[11px] sm:text-[12px] font-medium transition-all duration-200 cursor-pointer ${
+                      active
+                        ? "bg-lp-ink text-lp-bg shadow-xs font-semibold"
+                        : "text-lp-ink-mute hover:text-lp-ink"
+                    }`}
+                  >
+                    {s.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Hero Note Composer Canvas */}
+          <div className="p-6 sm:p-10 lg:p-12 border-b border-lp-line/80 bg-gradient-to-b from-lp-bg-2/15 to-transparent">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="inline-flex items-center gap-1 rounded-md bg-lp-em-soft px-2 py-0.5 text-[11px] font-semibold text-lp-em-deep">
+                <Sparkles className="h-3 w-3" />
+                Natural input
+              </span>
+              <span className="text-[12px] text-lp-ink-mute">
+                Type or tap any scenario above
+              </span>
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current.id}
+                initial={reduceMotion ? undefined : { opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduceMotion ? undefined : { opacity: 0, y: -6 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
+                className="lp-serif text-[24px] sm:text-[32px] lg:text-[38px] font-medium leading-[1.45] tracking-[-0.018em] text-lp-ink"
+              >
+                I spent{" "}
+                <span className="inline-block rounded-xl bg-lp-em-tint px-3 py-1 font-bold text-lp-em-deep border border-lp-em/30 shadow-2xs">
+                  {current.amount}
+                </span>{" "}
+                on{" "}
+                <span className="inline-block rounded-xl bg-lp-em-tint px-3 py-1 font-bold text-lp-em-deep border border-lp-em/30 shadow-2xs">
+                  {current.category}
+                </span>{" "}
+                at{" "}
+                <span className="inline-block rounded-xl bg-lp-bg-2 px-3 py-1 font-bold text-lp-ink border border-lp-line shadow-2xs">
+                  {current.merchant}
+                </span>{" "}
+                paid with{" "}
+                <span className="inline-block rounded-xl bg-lp-bg-2 px-3 py-1 font-bold text-lp-ink border border-lp-line shadow-2xs">
+                  {current.account}
+                </span>
+                <span className="inline-block ml-0.5 text-lp-em font-light animate-pulse">|</span>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Note Meta Bar */}
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-4 pt-6 border-t border-lp-line/60">
+              <div className="flex items-center gap-2 text-[12px] sm:text-[13px] text-lp-ink-mute">
+                <span className="h-1.5 w-1.5 rounded-full bg-lp-em" />
+                <span>Zero spreadsheet forms · Instant category and account matching</span>
+              </div>
+
               <button
                 type="button"
                 onClick={handleSave}
-                className={`group inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-[12px] font-semibold transition-all duration-200 cursor-pointer shadow-xs active:scale-[0.98] ${
+                className={`group inline-flex items-center gap-2 rounded-full px-5 py-2 text-[13px] font-semibold transition-all duration-200 cursor-pointer shadow-xs active:scale-[0.98] ${
                   saved
-                    ? "bg-lp-em text-white"
+                    ? "bg-lp-em text-white shadow-md shadow-emerald-900/20"
                     : "bg-lp-ink text-lp-bg hover:-translate-y-0.5 hover:shadow-sm"
                 }`}
               >
                 {saved ? (
                   <>
-                    <Check className="h-3.5 w-3.5" />
+                    <Check className="h-4 w-4" />
                     <span>Saved in 1.4s!</span>
                   </>
                 ) : (
                   <>
-                    <span>Save expense (2s)</span>
+                    <span>Log to ledger</span>
                     <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                   </>
                 )}
               </button>
             </div>
-          </motion.div>
+          </div>
+
+          {/* Live Ledger Downstream Payoff */}
+          <div className="p-6 sm:p-8 bg-lp-bg-2/30">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-lp-ink-mute">
+                Live ledger output
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-lp-em">
+                <Check className="h-3 w-3" />
+                Real-time sync
+              </span>
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              {/* Output 1: Recorded Transaction */}
+              <div className="rounded-2xl border border-lp-line bg-lp-card p-4 shadow-xs">
+                <div className="text-[11px] font-medium text-lp-ink-mute mb-2 flex items-center justify-between">
+                  <span>TRANSACTION</span>
+                  <span className="text-lp-em font-semibold">Just now</span>
+                </div>
+                <div className="flex items-center justify-between gap-2.5">
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-lp-em-soft text-lp-em">
+                      <IconComponent className="h-4.5 w-4.5" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="truncate text-[13px] font-semibold text-lp-ink">
+                        {current.merchant}
+                      </div>
+                      <div className="truncate text-[11px] text-lp-ink-mute">
+                        {current.category}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <span className="text-[14px] font-bold tabular-nums text-rose-600 dark:text-rose-400">
+                      −{current.amount}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Output 2: Spent Today Total Rollup */}
+              <div className="rounded-2xl border border-lp-line bg-lp-card p-4 shadow-xs">
+                <div className="text-[11px] font-medium text-lp-ink-mute mb-2 flex items-center justify-between">
+                  <span>SPENT TODAY</span>
+                  <span className="text-[10px] font-semibold text-lp-ink-mute">
+                    + {current.amount}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-[18px] font-bold tabular-nums text-lp-ink">
+                      {current.todayTotalAfter}
+                    </div>
+                    <div className="text-[11px] text-lp-ink-mute line-through tabular-nums">
+                      {current.todayTotalBefore}
+                    </div>
+                  </div>
+                  <span className="rounded-md bg-emerald-500/10 px-2 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                    On track
+                  </span>
+                </div>
+              </div>
+
+              {/* Output 3: Category Budget & Account Balance */}
+              <div className="rounded-2xl border border-lp-line bg-lp-card p-4 shadow-xs">
+                <div className="flex items-center justify-between text-[11px] font-medium text-lp-ink-mute mb-1.5">
+                  <span className="truncate">{current.category}</span>
+                  <span className="tabular-nums font-semibold text-lp-ink">
+                    {current.categoryPercent}%
+                  </span>
+                </div>
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-lp-line mb-3">
+                  <div
+                    className="h-full rounded-full bg-lp-em transition-all duration-500 ease-out"
+                    style={{ width: `${current.categoryPercent}%` }}
+                  />
+                </div>
+                <div className="flex items-center justify-between border-t border-lp-line/60 pt-2 text-[11px]">
+                  <span className="text-lp-ink-mute truncate">{current.account}</span>
+                  <span className="tabular-nums font-semibold text-lp-ink">
+                    {current.accountBalance}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Quiet Trust Bar */}
+        <p className="mt-8 text-center text-[13px] text-lp-ink-mute">
+          No bank logins · 100% private and stored on your device · Export to CSV anytime
+        </p>
       </div>
     </section>
   )

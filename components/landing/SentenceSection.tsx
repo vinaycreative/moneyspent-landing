@@ -2,11 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence, useReducedMotion } from "motion/react"
-import {
-  Calendar,
-  Check,
-  X,
-} from "lucide-react"
+import { Calendar, Check, X } from "lucide-react"
 
 type ActiveField = "amount" | "note" | "category" | "account"
 
@@ -81,7 +77,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
   const [saved, setSaved] = useState(false)
   const reduceMotion = useReducedMotion()
 
-  const handleSelectPreset = (p: typeof PRESET_SCENARIOS[0]) => {
+  const handleSelectPreset = (p: (typeof PRESET_SCENARIOS)[0]) => {
     setAmount(p.amount)
     setNote(p.note)
     setCategory(p.category)
@@ -97,20 +93,17 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
   return (
     <section id="sentence" className="py-20 lg:py-28 overflow-hidden">
       <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-12 xl:gap-16">
           {/* Left Column: Copy & Narrative */}
           <div>
-            <p className="lp-section-label">
-              <span className="inline-block h-1 w-1 rounded-full bg-lp-em" />
-              Natural sentence logging
-            </p>
             <h2 className="lp-display mt-4 text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
               Add spends like
               <br />
               writing a note.
             </h2>
             <p className="mt-4 max-w-[480px] text-base leading-relaxed text-lp-ink-soft sm:text-lg">
-              One sentence, a few taps, and your expense is saved — without filling a six-field spreadsheet form for every coffee.
+              One sentence, a few taps, and your expense is saved — without filling a six-field
+              spreadsheet form for every coffee.
             </p>
 
             {/* Feature Highlights */}
@@ -120,7 +113,9 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                   ✓
                 </div>
                 <div>
-                  <h4 className="text-[15px] font-semibold text-lp-ink">Fill-in-the-blank speed</h4>
+                  <h4 className="text-[15px] font-semibold text-lp-ink">
+                    Fill-in-the-blank speed
+                  </h4>
                   <p className="text-[13px] text-lp-ink-mute mt-0.5 leading-relaxed">
                     Tap any underlined chip to swap amount, note, category, or account instantly.
                   </p>
@@ -134,7 +129,8 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                 <div>
                   <h4 className="text-[15px] font-semibold text-lp-ink">One-tap suggestions</h4>
                   <p className="text-[13px] text-lp-ink-mute mt-0.5 leading-relaxed">
-                    MoneySpent remembers frequent amounts, recent places, and payment methods so you log in under 3 seconds.
+                    MoneySpent remembers frequent amounts, recent places, and payment methods so
+                    you log in under 3 seconds.
                   </p>
                 </div>
               </div>
@@ -163,7 +159,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
           </div>
 
           {/* Right Column: The Actual MoneySpent Product Interface */}
-          <div className="relative mx-auto w-full max-w-[430px]">
+          <div className="relative w-full max-w-[440px] sm:max-w-[460px] mx-auto lg:max-w-[470px] lg:ml-auto lg:mr-0">
             {/* Ambient Product Glow */}
             <div
               aria-hidden
@@ -171,7 +167,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
             />
 
             {/* Actual MoneySpent Mobile Sheet UI */}
-            <div className="rounded-[2.2rem] border border-lp-line bg-lp-card p-5 sm:p-6 shadow-[var(--lp-shadow-lg)]">
+            <div className="rounded-[2.2rem] sm:rounded-[2.4rem] border border-lp-line bg-lp-card p-5 sm:p-7 shadow-[var(--lp-shadow-lg)]">
               {/* Sheet Drag Handle */}
               <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-lp-line" />
 
@@ -202,8 +198,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
               {/* The Live Interactive Sentence (Exact Product SentenceChip Design) */}
               <div className="py-5">
                 <p className="text-[22px] sm:text-[24px] font-black leading-[1.3] tracking-tight text-lp-ink">
-                  I spent{" "}
-                  {/* Amount Chip */}
+                  I spent {/* Amount Chip */}
                   <span
                     onClick={() => setActiveField("amount")}
                     className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-2 py-0.5 transition-all select-none ${
@@ -214,8 +209,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                   >
                     {amount ? `₹${amount}` : "₹---"}
                   </span>{" "}
-                  on{" "}
-                  {/* Note Chip */}
+                  on {/* Note Chip */}
                   <span
                     onClick={() => setActiveField("note")}
                     className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-2 py-0.5 transition-all select-none ${
@@ -226,8 +220,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                   >
                     {note || "---"}
                   </span>{" "}
-                  for{" "}
-                  {/* Category Chip */}
+                  for {/* Category Chip */}
                   <span
                     onClick={() => setActiveField("category")}
                     className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-2 py-0.5 transition-all select-none ${
@@ -238,8 +231,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                   >
                     {category ? `${category.emoji} ${category.label}` : "---"}
                   </span>{" "}
-                  from{" "}
-                  {/* Account Chip */}
+                  from {/* Account Chip */}
                   <span
                     onClick={() => setActiveField("account")}
                     className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-2 py-0.5 transition-all select-none ${

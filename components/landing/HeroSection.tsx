@@ -3,6 +3,7 @@
 import Link from "next/link"
 import dynamic from "next/dynamic"
 import posthog from "posthog-js"
+import { ArrowRight, Play } from "lucide-react"
 import { RotatingWord } from "@/components/RotatingWord"
 import { useAppUrl } from "@/hooks/use-app-url"
 
@@ -26,7 +27,6 @@ export function HeroSection({
           {/* Left: copy */}
           <div className="text-center lg:text-left">
             <p className="lp-hero-badge lp-section-label mx-auto lg:mx-0">
-              <span className="inline-block h-1 w-1 rounded-full bg-lp-em" />
               Personal finance tracker
             </p>
 
@@ -34,10 +34,10 @@ export function HeroSection({
               {title || (
                 <>
                   Track every <br />
-                  <span className="inline-flex align-middle">
+                  <span className="inline-flex items-center whitespace-nowrap align-middle">
                     <RotatingWord texts={["rupee", "dollar", "euro", "pound", "dinar"]} />
-                  </span>{" "}
-                  smarter.
+                    <span className="ml-2.5 sm:ml-3.5">smarter.</span>
+                  </span>
                 </>
               )}
             </h1>
@@ -47,20 +47,22 @@ export function HeroSection({
                 "Free expense tracker for daily spending, budgets, and account balances. Log spends in seconds and see where your money goes—without spreadsheet friction."}
             </p>
 
-            <div className="lp-hero-cta mt-7 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+            <div className="lp-hero-cta mt-7 flex flex-wrap items-center justify-center gap-3.5 lg:justify-start">
               <Link
                 href={onboardingUrl}
-                className="lp-btn-primary inline-flex min-h-12 items-center gap-2 rounded-full bg-lp-ink px-6 text-sm font-semibold text-lp-bg shadow-[var(--lp-shadow-sm)]"
+                className="group relative inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-lp-ink px-6 text-[14px] font-semibold text-lp-bg shadow-[0_4px_16px_-2px_rgba(17,20,19,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-4px_rgba(17,20,19,0.35)] active:translate-y-0 active:scale-[0.98] dark:shadow-[0_4px_20px_-2px_rgba(0,0,0,0.5)]"
                 onClick={() => posthog.capture("hero_cta_clicked", { location: "hero" })}
               >
-                Start tracking →
+                <span>Start tracking free</span>
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
               </Link>
               <Link
                 href="/how-it-works"
-                className="lp-btn-ghost inline-flex min-h-12 items-center gap-2 rounded-full border border-lp-line px-5 text-sm font-medium text-lp-ink-soft"
+                className="group inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-lp-line/90 bg-lp-card/80 px-5 text-[14px] font-medium text-lp-ink-soft shadow-2xs backdrop-blur-xs transition-all duration-200 hover:-translate-y-0.5 hover:border-lp-line-strong hover:bg-lp-card hover:text-lp-ink hover:shadow-xs active:translate-y-0 active:scale-[0.98]"
                 onClick={() => posthog.capture("hero_explore_clicked", { location: "hero" })}
               >
-                See how it works
+                <Play className="h-3 w-3 fill-current text-lp-em opacity-70 transition-transform duration-200 group-hover:scale-110 group-hover:opacity-100" />
+                <span>See how it works</span>
               </Link>
             </div>
 

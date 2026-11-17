@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "../components/stageshow/stageshow.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -1221,19 +1222,49 @@ input[type="number"] {
 @keyframes float-up-down {
   0%,
   100% {
-    transform: translateY(0);
+    translate: 0 0;
   }
   50% {
-    transform: translateY(-10px);
+    translate: 0 -8px;
+  }
+}
+
+@keyframes float-subtle-1 {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -5px;
+  }
+}
+
+@keyframes float-subtle-2 {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -6px;
   }
 }
 
 .animate-float-up-down {
-  animation: float-up-down 3s ease-in-out infinite;
+  animation: float-up-down 3.6s ease-in-out infinite;
+}
+
+.animate-float-card-1 {
+  animation: float-subtle-1 4.2s ease-in-out 0.4s infinite;
+}
+
+.animate-float-card-2 {
+  animation: float-subtle-2 4.8s ease-in-out 1.2s infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-float-up-down {
+  .animate-float-up-down,
+  .animate-float-card-1,
+  .animate-float-card-2 {
     animation: none;
   }
 }

@@ -1,35 +1,41 @@
 {
-  "version": 1,
+  "version": 2,
   "skills": {
     "ai-seo": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
       "skillPath": "skills/ai-seo/SKILL.md",
-      "computedHash": "a6befed362ed7127d051db085bc8be9470abbe87f70a40ee9a05e201dd8c693f"
+      "computedHash": "5463c2d2050711d1db6fa8d16c5b9bd6ee9c61b26290ae5f0bfdb58d0c14567b"
     },
     "firecrawl-seo-audit": {
       "source": "firecrawl/firecrawl-workflows",
       "sourceType": "github",
       "skillPath": "skills/firecrawl-seo-audit/SKILL.md",
-      "computedHash": "5671d7928e541b8ff53fff37871d7da7a082cc81d7b6ca31bd8e49fa40b5bf3e"
+      "computedHash": "f73f41365e5efe01befd5e49d7e61ae44c6283ed98c59309444599d1ca3b3e20"
     },
     "programmatic-seo": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
       "skillPath": "skills/programmatic-seo/SKILL.md",
-      "computedHash": "0bbdcbacfbe46fd78d774041ee49afd313505bb435b775dc246f4b8e6981d797"
+      "computedHash": "25cded0b8d8b6d1c5a3c0da79bf1b0fba8ae182b9d39de2c5c514811087ed77e"
     },
     "seo-audit": {
       "source": "coreyhaines31/marketingskills",
       "sourceType": "github",
       "skillPath": "skills/seo-audit/SKILL.md",
-      "computedHash": "f2dc52130189068981f21e1c0bdc4471ac7cd9b08d8a1320604411aa0f950385"
+      "computedHash": "b81c7e311eca5c1cfde0f765a4864da5ebf14fcecc5a86ebb4f28a9cd24a9931"
     },
     "seo-geo": {
       "source": "resciencelab/opc-skills",
       "sourceType": "github",
       "skillPath": "skills/seo-geo/SKILL.md",
-      "computedHash": "56f90ba46b36563bb5461feb8462aed9283e74dfc4cdac2a98c42c4bc86a95be"
+      "computedHash": "3a38d9449cb57e24e14de88045865c237e974b2ccb3ef8127fa84582f5a702c8"
+    },
+    "stageshow": {
+      "source": "benjitaylor/skills",
+      "sourceType": "github",
+      "skillPath": "stageshow/SKILL.md",
+      "computedHash": "faaf72b41c206b98da5788093eb07fcdceb80dee90b5dc6dd921048196279474"
     }
   }
 }

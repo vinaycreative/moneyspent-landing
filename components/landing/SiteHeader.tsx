@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown } from "lucide-react"
+import { ArrowRight, ChevronDown } from "lucide-react"
 import posthog from "posthog-js"
 import { LpThemeToggle } from "@/components/LpThemeToggle"
 import { useAppUrl } from "@/hooks/use-app-url"
@@ -18,7 +18,6 @@ export function SiteHeader() {
   const pathname = usePathname()
   const [featuresOpen, setFeaturesOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-  const loginUrl = useAppUrl("/login")
   const onboardingUrl = useAppUrl("/onboarding")
 
   const featuresActive = pathname === "/features" || pathname.startsWith("/features/")
@@ -151,25 +150,27 @@ export function SiteHeader() {
             <div className="mx-3 h-4 w-px bg-lp-line" />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <LpThemeToggle />
-            <Link
-              href={loginUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="lp-nav-link hidden rounded-lg px-3 py-2 text-[13px] font-medium sm:inline-flex"
-              onClick={() => posthog.capture("header_sign_in_clicked", { location: "header" })}
-            >
-              Sign in
-            </Link>
             <Link
               href={onboardingUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="lp-btn-primary inline-flex min-h-9 items-center rounded-full bg-lp-ink px-4 text-[13px] font-semibold text-lp-bg"
-              onClick={() => posthog.capture("header_try_it_free_clicked", { location: "header" })}
+              className="group relative inline-flex h-9 items-center gap-2.5 overflow-hidden rounded-full bg-lp-ink pl-4 pr-1.5 text-[13px] font-semibold text-lp-bg shadow-[0_2px_10px_-2px_rgba(17,20,19,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-4px_rgba(17,20,19,0.35)] active:translate-y-0 active:scale-[0.98] dark:shadow-[0_2px_12px_-2px_rgba(0,0,0,0.6)]"
+              onClick={() => posthog.capture("header_cta_clicked", { location: "header" })}
             >
-              Try free
+              {/* Subtle hover shimmer sweep */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+              />
+
+              <span className="relative z-10 tracking-tight">Get started</span>
+
+              {/* Interactive icon chip */}
+              <span className="relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-lp-bg/15 text-lp-bg transition-all duration-300 group-hover:bg-lp-em group-hover:text-white group-hover:translate-x-0.5">
+                <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </span>
             </Link>
           </div>
         </nav>

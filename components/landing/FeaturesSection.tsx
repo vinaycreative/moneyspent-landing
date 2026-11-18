@@ -173,13 +173,11 @@ function HeroCommandCenter() {
   const reduceMotion = useReducedMotion()
 
   const filteredTxns =
-    filter === "all"
-      ? TODAY_TXNS
-      : TODAY_TXNS.filter((t) => t.category === filter)
+    filter === "all" ? TODAY_TXNS : TODAY_TXNS.filter((t) => t.category === filter)
 
   const totalSpent = filteredTxns.reduce(
     (acc, t) => acc + parseInt(t.amount.replace(/[^0-9]/g, "")),
-    0
+    0,
   )
 
   const filterTabs: { id: LedgerFilter; label: string; count: number }[] = [
@@ -190,13 +188,20 @@ function HeroCommandCenter() {
   ]
 
   return (
-    <article className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] sm:col-span-2 lg:col-span-2">
+    <motion.article
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] sm:col-span-2 lg:col-span-2"
+    >
       {/* Run-in Copy */}
       <div className="mb-4">
         <p className="text-[16px] sm:text-[18px] leading-snug tracking-[-0.015em] text-lp-ink">
           <strong className="font-semibold text-lp-ink">Today at a glance.</strong>{" "}
           <span className="text-lp-ink-mute">
-            Live daily pace, budget headroom, and chronological transactions without spreadsheet noise.
+            Live daily pace, budget headroom, and chronological transactions without spreadsheet
+            noise.
           </span>
         </p>
       </div>
@@ -222,9 +227,7 @@ function HeroCommandCenter() {
                 </span>
                 <p className="font-mono text-[11px] font-bold text-lp-ink">
                   ₹{totalSpent.toLocaleString()}{" "}
-                  <span className="font-sans font-normal text-lp-ink-mute">
-                    / ₹2,500 limit
-                  </span>
+                  <span className="font-sans font-normal text-lp-ink-mute">/ ₹2,500 limit</span>
                 </p>
               </div>
               <div className="flex items-center gap-2">
@@ -258,9 +261,7 @@ function HeroCommandCenter() {
                   type="button"
                   onClick={() => setFilter(tab.id)}
                   className={`relative rounded-md px-2 py-0.5 font-medium transition-colors cursor-pointer shrink-0 select-none ${
-                    isActive
-                      ? "text-lp-ink font-semibold"
-                      : "text-lp-ink-mute hover:text-lp-ink"
+                    isActive ? "text-lp-ink font-semibold" : "text-lp-ink-mute hover:text-lp-ink"
                   }`}
                 >
                   {isActive && (
@@ -270,9 +271,7 @@ function HeroCommandCenter() {
                       transition={{ type: "spring", stiffness: 350, damping: 28 }}
                     />
                   )}
-                  <span className="relative z-10 flex items-center gap-1">
-                    {tab.label}
-                  </span>
+                  <span className="relative z-10 flex items-center gap-1">{tab.label}</span>
                 </button>
               )
             })}
@@ -294,9 +293,7 @@ function HeroCommandCenter() {
                     onMouseEnter={() => setHoveredTxn(txn.id)}
                     onMouseLeave={() => setHoveredTxn(null)}
                     className={`flex items-center justify-between rounded-xl border border-lp-line/70 bg-lp-card px-3 py-2 transition-colors cursor-pointer ${
-                      isHovered
-                        ? "border-lp-em/40 shadow-xs"
-                        : "hover:border-lp-em/30"
+                      isHovered ? "border-lp-em/40 shadow-xs" : "hover:border-lp-em/30"
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -311,20 +308,12 @@ function HeroCommandCenter() {
                               : "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
                         }`}
                       >
-                        {txn.icon === "coffee" && (
-                          <MicroCoffeeIcon active={isHovered} />
-                        )}
-                        {txn.icon === "cart" && (
-                          <MicroCartIcon active={isHovered} />
-                        )}
-                        {txn.icon === "car" && (
-                          <MicroCarIcon active={isHovered} />
-                        )}
+                        {txn.icon === "coffee" && <MicroCoffeeIcon active={isHovered} />}
+                        {txn.icon === "cart" && <MicroCartIcon active={isHovered} />}
+                        {txn.icon === "car" && <MicroCarIcon active={isHovered} />}
                       </div>
                       <div>
-                        <p className="text-[12px] font-semibold text-lp-ink">
-                          {txn.title}
-                        </p>
+                        <p className="text-[12px] font-semibold text-lp-ink">{txn.title}</p>
                         <p className="text-[10px] text-lp-ink-mute">{txn.meta}</p>
                       </div>
                     </div>
@@ -364,7 +353,7 @@ function HeroCommandCenter() {
           Today workflow &rarr;
         </Link>
       </div>
-    </article>
+    </motion.article>
   )
 }
 
@@ -488,7 +477,13 @@ function SearchHistoryCard() {
   const activeData = SEARCH_PRESETS[activeQuery]
 
   return (
-    <article className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1">
+    <motion.article
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
+    >
       {/* Run-in Copy */}
       <div className="mb-4">
         <p className="text-[16px] sm:text-[17px] leading-snug tracking-[-0.015em] text-lp-ink">
@@ -505,9 +500,7 @@ function SearchHistoryCard() {
           {/* Search Bar Input Simulation */}
           <div className="relative flex items-center rounded-xl border border-lp-line bg-lp-card px-2.5 py-1.5 shadow-2xs">
             <Search size={13} className="text-lp-em shrink-0 mr-2" />
-            <span className="text-[11px] font-semibold text-lp-ink flex-1">
-              {activeQuery}
-            </span>
+            <span className="text-[11px] font-semibold text-lp-ink flex-1">{activeQuery}</span>
             <span className="font-mono text-[9px] text-lp-ink-mute/60 rounded bg-lp-bg-2 px-1 py-0.5 border border-lp-line/50">
               ⌘K
             </span>
@@ -556,9 +549,7 @@ function SearchHistoryCard() {
                     <div className="flex items-center gap-2">
                       <span className="text-xs select-none">{item.emoji}</span>
                       <div>
-                        <p className="font-semibold text-lp-ink text-[11px]">
-                          {item.merchant}
-                        </p>
+                        <p className="font-semibold text-lp-ink text-[11px]">{item.merchant}</p>
                         <p className="text-[9px] text-lp-ink-mute">
                           {item.date} &middot; {item.tag}
                         </p>
@@ -593,7 +584,7 @@ function SearchHistoryCard() {
           Search history &rarr;
         </Link>
       </div>
-    </article>
+    </motion.article>
   )
 }
 
@@ -602,10 +593,38 @@ function SearchHistoryCard() {
 /* -------------------------------------------------------------------------- */
 
 const CATEGORIES = [
-  { id: "cat-1", name: "Food & Dining", emoji: "🍔", amount: "₹14,850", percent: 46, color: "#10b981" },
-  { id: "cat-2", name: "Bills & Utilities", emoji: "⚡", amount: "₹9,200", percent: 28, color: "#6366f1" },
-  { id: "cat-3", name: "Cab & Transit", emoji: "🚕", amount: "₹5,140", percent: 16, color: "#f59e0b" },
-  { id: "cat-4", name: "Shopping & Misc", emoji: "🛍️", amount: "₹3,220", percent: 10, color: "#fb7185" },
+  {
+    id: "cat-1",
+    name: "Food & Dining",
+    emoji: "🍔",
+    amount: "₹14,850",
+    percent: 46,
+    color: "#10b981",
+  },
+  {
+    id: "cat-2",
+    name: "Bills & Utilities",
+    emoji: "⚡",
+    amount: "₹9,200",
+    percent: 28,
+    color: "#6366f1",
+  },
+  {
+    id: "cat-3",
+    name: "Cab & Transit",
+    emoji: "🚕",
+    amount: "₹5,140",
+    percent: 16,
+    color: "#f59e0b",
+  },
+  {
+    id: "cat-4",
+    name: "Shopping & Misc",
+    emoji: "🛍️",
+    amount: "₹3,220",
+    percent: 10,
+    color: "#fb7185",
+  },
 ]
 
 function CategoryInsightsCard() {
@@ -613,7 +632,13 @@ function CategoryInsightsCard() {
   const reduceMotion = useReducedMotion()
 
   return (
-    <article className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 sm:p-7 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1">
+    <motion.article
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 sm:p-7 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
+    >
       {/* Run-in Copy */}
       <div className="mb-5">
         <p className="text-[16px] sm:text-[17px] leading-snug tracking-[-0.015em] text-lp-ink">
@@ -710,7 +735,7 @@ function CategoryInsightsCard() {
           Category reports &rarr;
         </Link>
       </div>
-    </article>
+    </motion.article>
   )
 }
 
@@ -724,7 +749,11 @@ function TactileCardStack() {
   const reduceMotion = useReducedMotion()
 
   return (
-    <article
+    <motion.article
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 sm:p-7 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
@@ -845,7 +874,7 @@ function TactileCardStack() {
           Manage accounts &rarr;
         </Link>
       </div>
-    </article>
+    </motion.article>
   )
 }
 
@@ -888,11 +917,21 @@ const HEATMAP_DAYS = [
 ]
 
 function SpendRhythmCard() {
-  const [hoveredDay, setHoveredDay] = useState<{ day: number; amount: number; label: string } | null>(HEATMAP_DAYS[16])
+  const [hoveredDay, setHoveredDay] = useState<{
+    day: number
+    amount: number
+    label: string
+  } | null>(HEATMAP_DAYS[16])
   const reduceMotion = useReducedMotion()
 
   return (
-    <article className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 sm:p-7 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1">
+    <motion.article
+      initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 sm:p-7 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
+    >
       {/* Run-in Copy */}
       <div className="mb-5">
         <p className="text-[16px] sm:text-[17px] leading-snug tracking-[-0.015em] text-lp-ink">
@@ -995,7 +1034,7 @@ function SpendRhythmCard() {
           Rhythm history &rarr;
         </Link>
       </div>
-    </article>
+    </motion.article>
   )
 }
 

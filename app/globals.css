@@ -1136,6 +1136,12 @@ input[type="number"] {
 .lp-hero-phone {
   animation: lp-in-right 600ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
 }
+.lp-fc-1 {
+  animation: lp-in-up 500ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+}
+.lp-fc-2 {
+  animation: lp-in-up 500ms cubic-bezier(0.22, 1, 0.36, 1) 340ms both;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .lp-hero-badge,
@@ -1143,7 +1149,9 @@ input[type="number"] {
   .lp-hero-sub,
   .lp-hero-cta,
   .lp-hero-trust,
-  .lp-hero-phone {
+  .lp-hero-phone,
+  .lp-fc-1,
+  .lp-fc-2 {
     animation: none;
   }
 }

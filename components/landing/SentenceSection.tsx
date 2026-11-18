@@ -95,7 +95,16 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
       <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-12 xl:gap-16">
           {/* Left Column: Copy & Narrative */}
-          <div>
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <p className="lp-section-label">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-lp-em" />
+              Natural Language Logging
+            </p>
             <h2 className="lp-display mt-4 text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
               Add spends like
               <br />
@@ -108,7 +117,13 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
 
             {/* Feature Highlights */}
             <div className="mt-8 space-y-4">
-              <div className="flex items-start gap-3.5">
+              <motion.div
+                initial={reduceMotion ? false : { opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-start gap-3.5"
+              >
                 <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-lp-em-soft text-lp-em font-bold text-xs mt-0.5">
                   ✓
                 </div>
@@ -120,9 +135,15 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                     Tap any underlined chip to swap amount, note, category, or account instantly.
                   </p>
                 </div>
-              </div>
+              </motion.div>
 
-              <div className="flex items-start gap-3.5">
+              <motion.div
+                initial={reduceMotion ? false : { opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.45, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-start gap-3.5"
+              >
                 <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-lp-em-soft text-lp-em font-bold text-xs mt-0.5">
                   ✓
                 </div>
@@ -133,11 +154,17 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                     you log in under 3 seconds.
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Interactive Scenario Presets */}
-            <div className="mt-8 pt-6 border-t border-lp-line">
+            <motion.div
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.24, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-8 pt-6 border-t border-lp-line"
+            >
               <p className="text-xs font-semibold uppercase tracking-wider text-lp-ink-mute mb-3">
                 Try a real spend:
               </p>
@@ -155,11 +182,17 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                   </button>
                 ))}
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right Column: The Actual MoneySpent Product Interface */}
-          <div className="relative w-full max-w-[440px] sm:max-w-[460px] mx-auto lg:max-w-[470px] lg:ml-auto lg:mr-0">
+          <motion.div
+            initial={reduceMotion ? false : { opacity: 0, y: 32, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full max-w-[440px] sm:max-w-[460px] mx-auto lg:max-w-[470px] lg:ml-auto lg:mr-0"
+          >
             {/* Ambient Product Glow */}
             <div
               aria-hidden
@@ -457,7 +490,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                 </motion.div>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

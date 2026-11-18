@@ -5,12 +5,7 @@ import { ProofStrip } from "@/components/landing/ProofStrip"
 import { JsonLd } from "@/components/landing/JsonLd"
 import { faq } from "@/constant/faq"
 import { buildPageMetadata } from "@/lib/seo"
-import {
-  faqJsonLd,
-  organizationJsonLd,
-  softwareApplicationJsonLd,
-  websiteJsonLd,
-} from "@/lib/seo"
+import { faqJsonLd, organizationJsonLd, softwareApplicationJsonLd, websiteJsonLd } from "@/lib/seo"
 
 const SentenceSection = dynamic(() =>
   import("@/components/landing/SentenceSection").then((mod) => mod.SentenceSection),

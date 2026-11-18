@@ -58,7 +58,13 @@ export function ScreenGallery() {
         </motion.div>
 
         {/* Device Stage with Authentic Stageshow Pro Phones */}
-        <div className="relative mx-auto mt-12 overflow-hidden rounded-[32px] border border-lp-line bg-lp-bg-2/50 px-4 py-12 sm:mt-16 sm:rounded-[40px] sm:px-8 sm:py-20 lg:py-24">
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto mt-12 overflow-hidden rounded-[32px] border border-lp-line bg-lp-bg-2/50 px-4 py-12 sm:mt-16 sm:rounded-[40px] sm:px-8 sm:py-20 lg:py-24"
+        >
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_35%,color-mix(in_srgb,var(--lp-em)_12%,transparent),transparent_70%)]"
@@ -152,7 +158,7 @@ export function ScreenGallery() {
               </div>
             </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

@@ -1,7 +1,7 @@
 "use client"
 
 import { EyeOff, Lock, ShieldCheck } from "lucide-react"
-import { motion } from "motion/react"
+import { motion, useReducedMotion } from "motion/react"
 
 const points = [
   {
@@ -22,10 +22,18 @@ const points = [
 ]
 
 export function PrivacySection() {
+  const reduceMotion = useReducedMotion()
+
   return (
     <section id="privacy" className="py-16 lg:py-24">
       <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
-        <div className="relative overflow-hidden rounded-[28px] bg-lp-ink px-6 py-12 sm:px-10 sm:py-14 lg:px-14 lg:py-16">
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="relative overflow-hidden rounded-[28px] bg-lp-ink px-6 py-12 sm:px-10 sm:py-14 lg:px-14 lg:py-16"
+        >
           {/* Soft depth, not loud glow */}
           <div
             aria-hidden
@@ -77,7 +85,7 @@ export function PrivacySection() {
               ))}
             </ul>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

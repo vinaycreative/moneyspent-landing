@@ -168,6 +168,7 @@ const PROOF_ITEMS: ProofItemProps[] = [
 
 export function ProofStrip() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const reduceMotion = useReducedMotion()
 
   return (
     <div
@@ -176,12 +177,26 @@ export function ProofStrip() {
       className="border-y border-lp-line/80 bg-lp-bg select-none"
     >
       <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
-        <div className="grid grid-cols-2 divide-y divide-lp-line/60 sm:divide-y-0 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-lp-line/80">
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.4 }}
+          className="grid grid-cols-2 divide-y divide-lp-line/60 sm:divide-y-0 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-lp-line/80"
+        >
           {PROOF_ITEMS.map((item, index) => {
             const isHovered = hoveredIndex === index
             return (
-              <div
+              <motion.div
                 key={item.label}
+                initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{
+                  duration: 0.45,
+                  delay: index * 0.08,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 className={`group flex items-center gap-3.5 sm:gap-4 py-4.5 sm:py-5 cursor-default transition-all duration-200 ${
@@ -215,10 +230,10 @@ export function ProofStrip() {
                     {item.detail}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             )
           })}
-        </div>
+        </motion.div>
       </div>
     </div>
   )

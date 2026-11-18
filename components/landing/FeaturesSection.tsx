@@ -1057,10 +1057,6 @@ export function FeaturesSection() {
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
           <div className="max-w-[540px]">
-            <p className="lp-section-label">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-lp-em" />
-              Built around daily use
-            </p>
             <h2 className="lp-display mt-4 text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
               Everything you need.
               <br />

@@ -37,17 +37,29 @@ function MicroCoffeeIcon({ active }: { active?: boolean }) {
       <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
       <motion.path
         d="M6 2v2"
-        animate={active && !reduceMotion ? { y: [-2, 0, -2], opacity: [0.4, 1, 0.4] } : { y: 0, opacity: 0.7 }}
+        animate={
+          active && !reduceMotion
+            ? { y: [-2, 0, -2], opacity: [0.4, 1, 0.4] }
+            : { y: 0, opacity: 0.7 }
+        }
         transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.path
         d="M10 1v3"
-        animate={active && !reduceMotion ? { y: [-2, 0, -2], opacity: [0.6, 1, 0.6] } : { y: 0, opacity: 0.8 }}
+        animate={
+          active && !reduceMotion
+            ? { y: [-2, 0, -2], opacity: [0.6, 1, 0.6] }
+            : { y: 0, opacity: 0.8 }
+        }
         transition={{ duration: 1.2, delay: 0.3, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.path
         d="M14 2v2"
-        animate={active && !reduceMotion ? { y: [-2, 0, -2], opacity: [0.4, 1, 0.4] } : { y: 0, opacity: 0.7 }}
+        animate={
+          active && !reduceMotion
+            ? { y: [-2, 0, -2], opacity: [0.4, 1, 0.4] }
+            : { y: 0, opacity: 0.7 }
+        }
         transition={{ duration: 1.2, delay: 0.6, repeat: Infinity, ease: "easeInOut" }}
       />
     </svg>
@@ -106,7 +118,7 @@ function MicroCarIcon({ active }: { active?: boolean }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/* TILE 1: HERO UI (TODAY COMMAND CENTER WITH BUTTERY CATEGORY FILTER TABS)   */
+/* TILE 1: HERO UI (TODAY COMMAND CENTER WITH COMPACT BUTTERY FILTER TABS)    */
 /* -------------------------------------------------------------------------- */
 
 type LedgerFilter = "all" | "food" | "groceries" | "transport"
@@ -153,16 +165,6 @@ const TODAY_TXNS: TodayTxn[] = [
     icon: "car",
     tone: "indigo",
   },
-  {
-    id: "t4",
-    title: "Third Wave Coffee",
-    meta: "Food & Dining · Fi Money · 04:30 PM",
-    tag: "Cold brew pour-over",
-    amount: "-₹180",
-    category: "food",
-    icon: "coffee",
-    tone: "amber",
-  },
 ]
 
 function HeroCommandCenter() {
@@ -181,17 +183,17 @@ function HeroCommandCenter() {
   )
 
   const filterTabs: { id: LedgerFilter; label: string; count: number }[] = [
-    { id: "all", label: "All spends", count: 4 },
-    { id: "food", label: "☕ Food", count: 2 },
-    { id: "groceries", label: "🛒 Groceries", count: 1 },
-    { id: "transport", label: "🚕 Transport", count: 1 },
+    { id: "all", label: "All (3)", count: 3 },
+    { id: "food", label: "☕ Food (1)", count: 1 },
+    { id: "groceries", label: "🛒 Groceries (1)", count: 1 },
+    { id: "transport", label: "🚕 Transport (1)", count: 1 },
   ]
 
   return (
-    <article className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 sm:p-8 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] sm:col-span-2 lg:col-span-2">
+    <article className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] sm:col-span-2 lg:col-span-2">
       {/* Run-in Copy */}
-      <div className="mb-6">
-        <p className="text-[17px] sm:text-[19px] leading-snug tracking-[-0.015em] text-lp-ink">
+      <div className="mb-4">
+        <p className="text-[16px] sm:text-[18px] leading-snug tracking-[-0.015em] text-lp-ink">
           <strong className="font-semibold text-lp-ink">Today at a glance.</strong>{" "}
           <span className="text-lp-ink-mute">
             Live daily pace, budget headroom, and chronological transactions without spreadsheet noise.
@@ -200,165 +202,174 @@ function HeroCommandCenter() {
       </div>
 
       {/* Living Dashboard Slice */}
-      <div className="relative overflow-hidden rounded-2xl border border-lp-line bg-lp-bg-2/40 dark:bg-black/30 p-4 sm:p-5 shadow-sm">
-        {/* Ledger Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-lp-line/70 pb-3 sm:pb-4">
-          {/* Today Indicator */}
-          <div className="flex items-center gap-2 rounded-xl border border-lp-line bg-lp-card px-3 py-1.5 shadow-2xs w-fit">
-            <Calendar size={14} className="text-lp-em shrink-0" />
-            <span className="text-xs font-semibold text-lp-ink">
-              Today · Thursday, 24 Oct
-            </span>
-          </div>
-
-          {/* Daily Limit & Pace Progress */}
-          <div className="flex items-center justify-between sm:justify-end gap-3.5">
-            <div className="text-left sm:text-right">
-              <span className="text-[10px] font-medium uppercase tracking-wider text-lp-ink-mute">
-                Spent Today
+      <div className="relative overflow-hidden rounded-2xl border border-lp-line bg-lp-bg-2/40 dark:bg-black/30 p-3.5 sm:p-4 shadow-sm flex-1 flex flex-col justify-between">
+        <div>
+          {/* Ledger Header Bar */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-lp-line/70 pb-2.5">
+            {/* Today Indicator */}
+            <div className="flex items-center gap-1.5 rounded-lg border border-lp-line bg-lp-card px-2.5 py-1 shadow-2xs w-fit">
+              <Calendar size={13} className="text-lp-em shrink-0" />
+              <span className="text-[11px] font-semibold text-lp-ink">
+                Today · Thursday, 24 Oct
               </span>
-              <p className="font-mono text-xs font-bold text-lp-ink">
-                ₹{totalSpent.toLocaleString()}{" "}
-                <span className="font-sans font-normal text-lp-ink-mute">
-                  / ₹2,500 limit
-                </span>
-              </p>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="hidden sm:block h-2 w-16 overflow-hidden rounded-full bg-lp-line">
-                <motion.div
-                  className="h-full bg-emerald-500 rounded-full"
-                  animate={{
-                    width: `${Math.min(100, Math.round((totalSpent / 2500) * 100))}%`,
-                  }}
-                  transition={{ type: "spring", stiffness: 120, damping: 18 }}
-                />
-              </div>
-              <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+
+            {/* Daily Limit & Pace Progress */}
+            <div className="flex items-center justify-between sm:justify-end gap-3">
+              <div className="text-left sm:text-right">
+                <span className="text-[9px] font-medium uppercase tracking-wider text-lp-ink-mute">
+                  Spent Today
                 </span>
-                On track
+                <p className="font-mono text-[11px] font-bold text-lp-ink">
+                  ₹{totalSpent.toLocaleString()}{" "}
+                  <span className="font-sans font-normal text-lp-ink-mute">
+                    / ₹2,500 limit
+                  </span>
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="hidden sm:block h-1.5 w-14 overflow-hidden rounded-full bg-lp-line">
+                  <motion.div
+                    className="h-full bg-emerald-500 rounded-full"
+                    animate={{
+                      width: `${Math.min(100, Math.round((totalSpent / 2500) * 100))}%`,
+                    }}
+                    transition={{ type: "spring", stiffness: 120, damping: 18 }}
+                  />
+                </div>
+                <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  </span>
+                  On track
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Buttery Category Filter Tabs */}
-        <div className="mt-3 flex items-center gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
-          {filterTabs.map((tab) => {
-            const isActive = filter === tab.id
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setFilter(tab.id)}
-                className={`relative rounded-lg px-2.5 py-1 font-medium transition-colors cursor-pointer shrink-0 select-none ${
-                  isActive
-                    ? "text-lp-ink font-semibold"
-                    : "text-lp-ink-mute hover:text-lp-ink"
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="heroLedgerFilterPill"
-                    className="absolute inset-0 rounded-lg bg-lp-card shadow-2xs border border-lp-line"
-                    transition={{ type: "spring", stiffness: 350, damping: 28 }}
-                  />
-                )}
-                <span className="relative z-10 flex items-center gap-1">
-                  {tab.label}
-                  <span className="text-[10px] text-lp-ink-mute/70">
-                    ({tab.count})
-                  </span>
-                </span>
-              </button>
-            )
-          })}
-        </div>
-
-        {/* Transaction Rows with Buttery Smooth Spring Transitions */}
-        <div className="mt-3 space-y-2 min-h-[224px]">
-          <AnimatePresence mode="popLayout" initial={false}>
-            {filteredTxns.map((txn) => {
-              const isHovered = hoveredTxn === txn.id
+          {/* Buttery Category Filter Tabs */}
+          <div className="mt-2.5 flex items-center gap-1 overflow-x-auto pb-0.5 text-[11px] no-scrollbar">
+            {filterTabs.map((tab) => {
+              const isActive = filter === tab.id
               return (
-                <motion.div
-                  key={txn.id}
-                  layout
-                  initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.94 }}
-                  transition={{ type: "spring", stiffness: 380, damping: 26 }}
-                  onMouseEnter={() => setHoveredTxn(txn.id)}
-                  onMouseLeave={() => setHoveredTxn(null)}
-                  className={`flex items-center justify-between rounded-xl border border-lp-line/70 bg-lp-card px-3.5 py-2.5 transition-colors cursor-pointer ${
-                    isHovered
-                      ? "border-lp-em/40 shadow-xs"
-                      : "hover:border-lp-em/30"
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setFilter(tab.id)}
+                  className={`relative rounded-md px-2 py-0.5 font-medium transition-colors cursor-pointer shrink-0 select-none ${
+                    isActive
+                      ? "text-lp-ink font-semibold"
+                      : "text-lp-ink-mute hover:text-lp-ink"
                   }`}
                 >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`flex h-9 w-9 items-center justify-center rounded-lg transition-transform duration-200 ${
-                        isHovered ? "scale-105" : ""
-                      } ${
-                        txn.tone === "amber"
-                          ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
-                          : txn.tone === "emerald"
-                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                          : "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
-                      }`}
-                    >
-                      {txn.icon === "coffee" && (
-                        <MicroCoffeeIcon active={isHovered} />
-                      )}
-                      {txn.icon === "cart" && (
-                        <MicroCartIcon active={isHovered} />
-                      )}
-                      {txn.icon === "car" && (
-                        <MicroCarIcon active={isHovered} />
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-[13px] font-semibold text-lp-ink">
-                        {txn.title}
-                      </p>
-                      <p className="text-[11px] text-lp-ink-mute">{txn.meta}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="font-mono text-[13px] font-bold text-lp-ink">
-                      {txn.amount}
-                    </span>
-                    <span className="hidden sm:block text-[10px] text-lp-ink-mute">
-                      {txn.tag}
-                    </span>
-                  </div>
-                </motion.div>
+                  {isActive && (
+                    <motion.div
+                      layoutId="heroLedgerFilterPill"
+                      className="absolute inset-0 rounded-md bg-lp-card shadow-2xs border border-lp-line"
+                      transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-1">
+                    {tab.label}
+                  </span>
+                </button>
               )
             })}
-          </AnimatePresence>
+          </div>
+
+          {/* Transaction Rows */}
+          <div className="mt-2.5 space-y-1.5">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {filteredTxns.map((txn) => {
+                const isHovered = hoveredTxn === txn.id
+                return (
+                  <motion.div
+                    key={txn.id}
+                    layout
+                    initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.94 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 26 }}
+                    onMouseEnter={() => setHoveredTxn(txn.id)}
+                    onMouseLeave={() => setHoveredTxn(null)}
+                    className={`flex items-center justify-between rounded-xl border border-lp-line/70 bg-lp-card px-3 py-2 transition-colors cursor-pointer ${
+                      isHovered
+                        ? "border-lp-em/40 shadow-xs"
+                        : "hover:border-lp-em/30"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div
+                        className={`flex h-8 w-8 items-center justify-center rounded-lg transition-transform duration-200 ${
+                          isHovered ? "scale-105" : ""
+                        } ${
+                          txn.tone === "amber"
+                            ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                            : txn.tone === "emerald"
+                              ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                              : "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400"
+                        }`}
+                      >
+                        {txn.icon === "coffee" && (
+                          <MicroCoffeeIcon active={isHovered} />
+                        )}
+                        {txn.icon === "cart" && (
+                          <MicroCartIcon active={isHovered} />
+                        )}
+                        {txn.icon === "car" && (
+                          <MicroCarIcon active={isHovered} />
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-[12px] font-semibold text-lp-ink">
+                          {txn.title}
+                        </p>
+                        <p className="text-[10px] text-lp-ink-mute">{txn.meta}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className="font-mono text-[12px] font-bold text-lp-ink">
+                        {txn.amount}
+                      </span>
+                      <span className="hidden sm:block text-[9px] text-lp-ink-mute">
+                        {txn.tag}
+                      </span>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </AnimatePresence>
+          </div>
         </div>
 
-        {/* Bottom Status & Workflow Link */}
-        <div className="mt-3 flex items-center justify-between pt-1 text-[11px] text-lp-ink-mute border-t border-lp-line/50">
-          <span>{filteredTxns.length} transactions shown · Live calculation</span>
-          <Link
-            href="/features/today-view"
-            className="font-semibold text-lp-em hover:underline flex items-center gap-0.5 shrink-0"
-          >
-            Today workflow &rarr;
-          </Link>
+        {/* Live Daily Pace & Headroom Status */}
+        <div className="mt-2.5 pt-2 border-t border-lp-line/60 flex items-center justify-between text-[11px] text-lp-ink-mute">
+          <span className="font-medium">
+            Daily burn pace: <strong className="text-lp-ink font-semibold">₹155/hr</strong>
+          </span>
+          <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
+            ₹1,260 safe headroom
+          </span>
         </div>
+      </div>
+
+      {/* Outer Card Footer */}
+      <div className="mt-4 flex items-center justify-between text-xs text-lp-ink-mute pt-1">
+        <span className="text-[11px]">{filteredTxns.length} transactions · Real-time ledger</span>
+        <Link
+          href="/features/today-view"
+          className="font-semibold text-lp-em hover:underline text-[12px]"
+        >
+          Today workflow &rarr;
+        </Link>
       </div>
     </article>
   )
 }
 
 /* -------------------------------------------------------------------------- */
-/* TILE 2: SEARCH & INSTANT FILTERING (REPLACING THE UNWANTED STOPWATCH)      */
+/* TILE 2: SEARCH & INSTANT FILTERING (COMPACT & BALANCED WITH HERO TILE)     */
 /* -------------------------------------------------------------------------- */
 
 interface SearchMatch {
@@ -437,7 +448,7 @@ const SEARCH_PRESETS: Record<string, { summary: string; matches: SearchMatch[] }
     ],
   },
   Blinkit: {
-    summary: "2 orders · ₹1,370 total spent",
+    summary: "3 orders · ₹1,850 total spent",
     matches: [
       {
         id: "b1",
@@ -454,7 +465,16 @@ const SEARCH_PRESETS: Record<string, { summary: string; matches: SearchMatch[] }
         date: "18 Oct, 08:30 PM",
         category: "Groceries",
         amount: "-₹820",
-        tag: "Weekly dairy & fruits",
+        tag: "Weekly groceries",
+        emoji: "🛒",
+      },
+      {
+        id: "b3",
+        merchant: "Blinkit Daily Essentials",
+        date: "12 Oct, 10:15 AM",
+        category: "Groceries",
+        amount: "-₹480",
+        tag: "Dairy & bakery",
         emoji: "🛒",
       },
     ],
@@ -468,9 +488,9 @@ function SearchHistoryCard() {
   const activeData = SEARCH_PRESETS[activeQuery]
 
   return (
-    <article className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 sm:p-7 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1">
+    <article className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1">
       {/* Run-in Copy */}
-      <div className="mb-5">
+      <div className="mb-4">
         <p className="text-[16px] sm:text-[17px] leading-snug tracking-[-0.015em] text-lp-ink">
           <strong className="font-semibold text-lp-ink">Search & filter.</strong>{" "}
           <span className="text-lp-ink-mute">
@@ -480,89 +500,92 @@ function SearchHistoryCard() {
       </div>
 
       {/* Search Interactive Window */}
-      <div className="rounded-2xl border border-lp-line bg-lp-bg-2/40 dark:bg-black/30 p-4">
-        {/* Search Bar Input Simulation */}
-        <div className="relative flex items-center rounded-xl border border-lp-line bg-lp-card px-3 py-2 shadow-2xs">
-          <Search size={14} className="text-lp-em shrink-0 mr-2" />
-          <span className="text-xs font-semibold text-lp-ink flex-1">
-            {activeQuery}
-          </span>
-          <span className="font-mono text-[10px] text-lp-ink-mute/60 rounded bg-lp-bg-2 px-1.5 py-0.5 border border-lp-line/50">
-            ⌘K
-          </span>
-        </div>
+      <div className="rounded-2xl border border-lp-line bg-lp-bg-2/40 dark:bg-black/30 p-3.5 sm:p-4 flex-1 flex flex-col justify-between">
+        <div>
+          {/* Search Bar Input Simulation */}
+          <div className="relative flex items-center rounded-xl border border-lp-line bg-lp-card px-2.5 py-1.5 shadow-2xs">
+            <Search size={13} className="text-lp-em shrink-0 mr-2" />
+            <span className="text-[11px] font-semibold text-lp-ink flex-1">
+              {activeQuery}
+            </span>
+            <span className="font-mono text-[9px] text-lp-ink-mute/60 rounded bg-lp-bg-2 px-1 py-0.5 border border-lp-line/50">
+              ⌘K
+            </span>
+          </div>
 
-        {/* Quick Filter Tag Buttons */}
-        <div className="mt-2.5 flex items-center gap-1.5">
-          {(["Coffee", "Uber", "Blinkit"] as const).map((q) => {
-            const isSelected = activeQuery === q
-            return (
-              <button
-                key={q}
-                type="button"
-                onClick={() => setActiveQuery(q)}
-                className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition-all cursor-pointer select-none ${
-                  isSelected
-                    ? "bg-lp-em text-white shadow-2xs scale-102"
-                    : "bg-lp-card border border-lp-line text-lp-ink-soft hover:border-lp-em/40"
-                }`}
-              >
-                {q === "Coffee" && "☕ "}
-                {q === "Uber" && "🚕 "}
-                {q === "Blinkit" && "🛒 "}
-                {q}
-              </button>
-            )
-          })}
-        </div>
-
-        {/* Matching Search Results List */}
-        <div className="mt-3.5 space-y-2 min-h-[178px]">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={activeQuery}
-              initial={false}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.15 }}
-              className="space-y-2"
-            >
-              {activeData.matches.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center justify-between rounded-xl border border-lp-line/70 bg-lp-card px-3 py-2 text-xs transition-colors hover:border-lp-em/30"
+          {/* Quick Filter Tag Buttons */}
+          <div className="mt-2 flex items-center gap-1">
+            {(["Coffee", "Uber", "Blinkit"] as const).map((q) => {
+              const isSelected = activeQuery === q
+              return (
+                <button
+                  key={q}
+                  type="button"
+                  onClick={() => setActiveQuery(q)}
+                  className={`rounded-md px-2 py-0.5 text-[10px] font-semibold transition-all cursor-pointer select-none ${
+                    isSelected
+                      ? "bg-lp-em text-white shadow-2xs"
+                      : "bg-lp-card border border-lp-line text-lp-ink-soft hover:border-lp-em/40"
+                  }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-sm select-none">{item.emoji}</span>
-                    <div>
-                      <p className="font-semibold text-lp-ink text-[12px]">
-                        {item.merchant}
-                      </p>
-                      <p className="text-[10px] text-lp-ink-mute">
-                        {item.date} &middot; {item.tag}
-                      </p>
+                  {q === "Coffee" && "☕ "}
+                  {q === "Uber" && "🚕 "}
+                  {q === "Blinkit" && "🛒 "}
+                  {q}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Matching Search Results List */}
+          <div className="mt-2.5 space-y-1.5">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={activeQuery}
+                initial={false}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.15 }}
+                className="space-y-1.5"
+              >
+                {activeData.matches.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center justify-between rounded-xl border border-lp-line/70 bg-lp-card px-2.5 py-1.5 text-xs transition-colors hover:border-lp-em/30"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs select-none">{item.emoji}</span>
+                      <div>
+                        <p className="font-semibold text-lp-ink text-[11px]">
+                          {item.merchant}
+                        </p>
+                        <p className="text-[9px] text-lp-ink-mute">
+                          {item.date} &middot; {item.tag}
+                        </p>
+                      </div>
                     </div>
+                    <span className="font-mono font-bold text-lp-ink text-[11px]">
+                      {item.amount}
+                    </span>
                   </div>
-                  <span className="font-mono font-bold text-lp-ink text-[12px]">
-                    {item.amount}
-                  </span>
-                </div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Search Result Summary */}
-        <div className="mt-2.5 pt-2 border-t border-lp-line/60 flex items-center justify-between text-[11px] text-lp-ink-mute">
+        <div className="mt-2 pt-1.5 border-t border-lp-line/60 flex items-center justify-between text-[10px] text-lp-ink-mute">
           <span className="font-medium text-emerald-600 dark:text-emerald-400">
             {activeData.summary}
           </span>
-          <span className="text-[10px]">Instant filter</span>
+          <span className="text-[9px]">Instant filter</span>
         </div>
       </div>
 
+      {/* Outer Card Footer */}
       <div className="mt-4 flex items-center justify-between text-xs text-lp-ink-mute pt-1">
-        <span className="text-[11px]">Instant filter by merchant</span>
+        <span className="text-[11px]">Filter by merchant</span>
         <Link
           href="/features/searchable-history"
           className="font-semibold text-lp-em hover:underline text-[12px]"
@@ -651,7 +674,11 @@ function CategoryInsightsCard() {
 
                 <div className="flex items-center gap-2">
                   <motion.span
-                    animate={isHovered && !reduceMotion ? { scale: [1, 1.25, 1], rotate: [-5, 5, 0] } : { scale: 1 }}
+                    animate={
+                      isHovered && !reduceMotion
+                        ? { scale: [1, 1.25, 1], rotate: [-5, 5, 0] }
+                        : { scale: 1 }
+                    }
                     transition={{ duration: 0.35 }}
                     className="text-sm select-none"
                   >
@@ -721,10 +748,10 @@ function TactileCardStack() {
             reduceMotion
               ? {}
               : activeCard === "fi"
-              ? { y: 28, rotate: 0, scale: 1, zIndex: 20 }
-              : isHovered
-              ? { y: -10, rotate: -4, scale: 1.01, zIndex: 10 }
-              : { y: 0, rotate: -2.5, scale: 0.98, zIndex: 10 }
+                ? { y: 28, rotate: 0, scale: 1, zIndex: 20 }
+                : isHovered
+                  ? { y: -10, rotate: -4, scale: 1.01, zIndex: 10 }
+                  : { y: 0, rotate: -2.5, scale: 0.98, zIndex: 10 }
           }
           transition={{ type: "spring", stiffness: 240, damping: 22 }}
           className="absolute top-1 right-2.5 left-2.5 h-[126px] rounded-xl border border-emerald-500/30 bg-gradient-to-br from-[#0c392b] via-[#08281e] to-[#041a13] p-3.5 shadow-md text-white cursor-pointer select-none"
@@ -746,8 +773,8 @@ function TactileCardStack() {
             reduceMotion
               ? {}
               : activeCard === "regalia"
-              ? { y: 0, rotate: isHovered ? 0.5 : 1, scale: 1, zIndex: 20 }
-              : { y: -26, rotate: -4, scale: 0.98, zIndex: 10 }
+                ? { y: 0, rotate: isHovered ? 0.5 : 1, scale: 1, zIndex: 20 }
+                : { y: -26, rotate: -4, scale: 0.98, zIndex: 10 }
           }
           transition={{ type: "spring", stiffness: 240, damping: 22 }}
           className="relative mt-7 h-[128px] rounded-xl border border-white/15 bg-gradient-to-br from-[#1e252e] via-[#12161c] to-[#090c0f] p-3.5 shadow-xl text-white overflow-hidden cursor-pointer select-none"
@@ -914,9 +941,7 @@ function SpendRhythmCard() {
                 } flex items-center justify-center`}
               >
                 {/* Zero spend dot */}
-                {item.level === 0 && (
-                  <span className="h-1 w-1 rounded-full bg-lp-line" />
-                )}
+                {item.level === 0 && <span className="h-1 w-1 rounded-full bg-lp-line" />}
 
                 {/* Today Radar Pulse */}
                 {isToday && (
@@ -1004,8 +1029,8 @@ export function FeaturesSection() {
             </h2>
           </div>
           <p className="max-w-sm text-base leading-relaxed text-lp-ink-mute lg:pb-1">
-            From three-tap entries to instant category breakdowns—money questions stay answered without turning
-            personal finance into another chore.{" "}
+            From three-tap entries to instant category breakdowns—money questions stay answered
+            without turning personal finance into another chore.{" "}
             <Link
               href="/features"
               className="inline-flex items-center gap-1 font-semibold text-lp-ink underline-offset-2 hover:underline"

@@ -14,7 +14,9 @@ export function LpThemeToggle() {
   }, [])
 
   if (!mounted) {
-    return <div className="h-9 w-9 shrink-0 rounded-full" style={{ background: "var(--lp-bg-2)" }} />
+    return (
+      <div className="h-9 w-9 shrink-0 rounded-full" style={{ background: "var(--lp-bg-2)" }} />
+    )
   }
 
   const isDark = resolvedTheme === "dark"
@@ -42,7 +44,7 @@ export function LpThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      className="lp-theme-btn relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
+      className="lp-theme-btn cursor-pointer relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
     >
       <Sun

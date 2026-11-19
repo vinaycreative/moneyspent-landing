@@ -1,9 +1,48 @@
 "use client"
 
 import { useState } from "react"
-import { TrendingDown, PieChart } from "lucide-react"
+import {
+  Calendar,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  TrendingDown,
+  TrendingUp,
+  X,
+  Sparkles,
+  CreditCard,
+  Building2,
+  Wallet,
+} from "lucide-react"
 import { Phone } from "@/components/stageshow/phone"
-import { motion, useReducedMotion, type Variants } from "motion/react"
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "motion/react"
+
+const TABS = [
+  {
+    id: 0,
+    title: "3-Tap Expense",
+    shortLabel: "Expense",
+    dotColor: "bg-rose-400",
+    activeText: "text-rose-400",
+    badge: "⚡ 3-Tap Sentence Logging",
+  },
+  {
+    id: 1,
+    title: "Today's Command Center",
+    shortLabel: "Dashboard",
+    dotColor: "bg-emerald-400",
+    activeText: "text-emerald-400",
+    badge: "★ Real-time Daily Ledger",
+  },
+  {
+    id: 2,
+    title: "Income & Accounts",
+    shortLabel: "Income",
+    dotColor: "bg-cyan-400",
+    activeText: "text-cyan-400",
+    badge: "💰 Income & Account Vault",
+  },
+] as const
 
 export function ScreenGallery() {
   const reduceMotion = useReducedMotion()
@@ -39,21 +78,24 @@ export function ScreenGallery() {
   return (
     <section className="overflow-hidden py-16 lg:py-28 text-lp-ink">
       <div className="mx-auto max-w-[1160px] px-5 text-center sm:px-8">
+        {/* Section Header */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          <p className="lp-section-label mx-auto">
-            <span className="inline-block h-1 w-1 rounded-full bg-lp-em" />
-            Product Showcase
-          </p>
-          <h2 className="lp-display mx-auto mt-3 max-w-[620px] text-[32px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[42px] lg:text-[48px]">
-            Designed for clarity at every step.
+          <div className="inline-flex items-center gap-2 rounded-full border border-lp-line bg-lp-card/85 px-3.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-lp-ink shadow-2xs backdrop-blur-xs">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            The Product
+          </div>
+
+          <h2 className="lp-display mx-auto mt-3 max-w-[640px] text-[34px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[44px] lg:text-[50px]">
+            Built for how people actually spend.
           </h2>
-          <p className="mx-auto mt-4 max-w-[460px] text-[15px] leading-relaxed text-lp-ink-mute sm:text-base">
-            From three-tap logging to daily rollups and category breakdowns—experience personal finance without spreadsheet fatigue.
+
+          <p className="mx-auto mt-3.5 max-w-[460px] text-[15px] leading-relaxed text-lp-ink-mute sm:text-base">
+            Three taps to log. One tap to see where it went.
           </p>
         </motion.div>
 
@@ -63,15 +105,21 @@ export function ScreenGallery() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto mt-12 overflow-hidden rounded-[32px] border border-lp-line bg-lp-bg-2/50 px-4 py-12 sm:mt-16 sm:rounded-[40px] sm:px-8 sm:py-20 lg:py-24"
+          className="relative mx-auto mt-10 overflow-hidden rounded-[32px] border border-lp-line bg-lp-bg-2/50 px-4 py-10 sm:mt-12 sm:rounded-[44px] sm:px-8 sm:py-16 lg:py-20"
         >
+          {/* Subtle Ambient Glow */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_35%,color-mix(in_srgb,var(--lp-em)_12%,transparent),transparent_70%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_35%,color-mix(in_srgb,var(--lp-em)_14%,transparent),transparent_75%)]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -bottom-24 left-1/2 h-[180px] w-[560px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[80px]"
           />
 
+          {/* Phones Container */}
           <motion.div
-            className="relative flex items-center justify-start gap-6 overflow-x-auto pb-4 scrollbar-hide sm:justify-center sm:gap-0 sm:overflow-visible sm:-space-x-12 md:-space-x-16"
+            className="relative flex items-center justify-start gap-4 overflow-x-auto pb-4 scrollbar-hide sm:justify-center sm:gap-0 sm:overflow-visible sm:-space-x-8 md:-space-x-10 lg:-space-x-12"
             variants={containerVariants}
             initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
@@ -82,25 +130,28 @@ export function ScreenGallery() {
               custom={0}
               variants={phoneVariants}
               onClick={() => setActiveScreen(0)}
-              className={`relative shrink-0 cursor-pointer transition-transform duration-500 ease-out sm:translate-y-6 sm:scale-[0.93] ${
-                activeScreen === 0 ? "z-30 !scale-100 !translate-y-0" : "z-10 hover:z-20 hover:-translate-y-1"
+              className={`relative shrink-0 cursor-pointer transition-all duration-500 ease-out ${
+                activeScreen === 0
+                  ? "z-30 scale-100 sm:scale-[1.05] sm:-translate-y-3 rotate-0"
+                  : "z-10 scale-[0.93] sm:scale-[0.92] sm:translate-y-4 sm:-rotate-2.5 opacity-85 hover:opacity-100 hover:scale-[0.95]"
               }`}
             >
               <div className="relative">
                 <Phone
-                  width={270}
+                  width={285}
                   frame="pro"
                   time="9:41"
                   island={true}
                   status={true}
                   dark={true}
-                  className="shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+                  className={`transition-shadow duration-500 ${
+                    activeScreen === 0
+                      ? "shadow-[0_28px_70px_rgba(244,63,94,0.2),0_24px_60px_rgba(0,0,0,0.65)] ring-1 ring-rose-500/30"
+                      : "shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+                  }`}
                 >
-                  <Screen1Logging />
+                  <Screen1ExpenseLogging />
                 </Phone>
-                <div className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-lp-line bg-lp-card/90 px-3 py-1 text-[11px] font-semibold text-lp-ink shadow-sm backdrop-blur-xs">
-                  Fast Daily Logging
-                </div>
               </div>
             </motion.div>
 
@@ -109,104 +160,147 @@ export function ScreenGallery() {
               custom={1}
               variants={phoneVariants}
               onClick={() => setActiveScreen(1)}
-              className={`relative shrink-0 cursor-pointer transition-transform duration-500 ease-out sm:-translate-y-4 sm:scale-[1.08] ${
-                activeScreen === 1 ? "z-30" : "z-20 hover:z-30"
+              className={`relative shrink-0 cursor-pointer transition-all duration-500 ease-out ${
+                activeScreen === 1
+                  ? "z-30 scale-100 sm:scale-[1.06] sm:-translate-y-4 rotate-0"
+                  : "z-20 scale-[0.93] sm:scale-[0.92] sm:translate-y-4 sm:rotate-1 opacity-85 hover:opacity-100 hover:scale-[0.95]"
               }`}
             >
               <div className="relative">
                 <Phone
-                  width={300}
+                  width={305}
                   frame="pro"
                   time="9:41"
                   island={true}
                   status={true}
                   dark={true}
-                  className="shadow-[0_32px_80px_rgba(0,0,0,0.65)] ring-1 ring-white/10"
+                  className={`transition-shadow duration-500 ${
+                    activeScreen === 1
+                      ? "shadow-[0_32px_80px_rgba(16,185,129,0.22),0_28px_70px_rgba(0,0,0,0.7)] ring-1 ring-emerald-500/40"
+                      : "shadow-[0_22px_55px_rgba(0,0,0,0.5)]"
+                  }`}
                 >
-                  <Screen2Dashboard />
+                  <Screen2DailyDashboard />
                 </Phone>
-                <div className="pointer-events-none absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-emerald-500/40 bg-lp-card px-3.5 py-1 text-[11px] font-bold text-lp-em shadow-md backdrop-blur-xs">
-                  ★ Today&apos;s Spend
-                </div>
               </div>
             </motion.div>
 
-            {/* Phone 3 (Right): Insights & Accounts */}
+            {/* Phone 3 (Right): Multi-Account & Income */}
             <motion.div
               custom={2}
               variants={phoneVariants}
               onClick={() => setActiveScreen(2)}
-              className={`relative shrink-0 cursor-pointer transition-transform duration-500 ease-out sm:translate-y-6 sm:scale-[0.93] ${
-                activeScreen === 2 ? "z-30 !scale-100 !translate-y-0" : "z-10 hover:z-20 hover:-translate-y-1"
+              className={`relative shrink-0 cursor-pointer transition-all duration-500 ease-out ${
+                activeScreen === 2
+                  ? "z-30 scale-100 sm:scale-[1.05] sm:-translate-y-3 rotate-0"
+                  : "z-10 scale-[0.93] sm:scale-[0.92] sm:translate-y-4 sm:rotate-2.5 opacity-85 hover:opacity-100 hover:scale-[0.95]"
               }`}
             >
               <div className="relative">
                 <Phone
-                  width={270}
+                  width={285}
                   frame="pro"
                   time="9:41"
                   island={true}
                   status={true}
                   dark={true}
-                  className="shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+                  className={`transition-shadow duration-500 ${
+                    activeScreen === 2
+                      ? "shadow-[0_28px_70px_rgba(6,182,212,0.2),0_24px_60px_rgba(0,0,0,0.65)] ring-1 ring-cyan-500/30"
+                      : "shadow-[0_20px_50px_rgba(0,0,0,0.45)]"
+                  }`}
                 >
-                  <Screen3Insights />
+                  <Screen3IncomeAndAccounts />
                 </Phone>
-                <div className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-lp-line bg-lp-card/90 px-3 py-1 text-[11px] font-semibold text-lp-ink shadow-sm backdrop-blur-xs">
-                  Insights & Accounts
-                </div>
               </div>
             </motion.div>
           </motion.div>
+
+          {/* Quick Caption Helper */}
+          <p className="mt-14 text-center text-xs font-medium text-lp-ink-mute sm:text-[13px]">
+            Click any device or tab above to inspect the full interface.
+          </p>
         </motion.div>
       </div>
     </section>
   )
 }
 
-/** Screen 1: Sentence Logging Sheet View */
-function Screen1Logging() {
+/* -------------------------------------------------------------------------- */
+/* SCREEN 1: 3-TAP SENTENCE EXPENSE LOGGER (AUTHENTIC IOS POINT SCALE)         */
+/* -------------------------------------------------------------------------- */
+
+function Screen1ExpenseLogging() {
   return (
-    <div className="flex h-full flex-col bg-[#0d0e0c] px-4 pt-10 text-white selection:bg-rose-900/60">
-      <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-2">
-        <div className="flex items-center gap-1.5 text-xs text-rose-400 font-bold uppercase tracking-wider">
-          <TrendingDown size={14} />
-          New Expense
+    <div className="flex h-full flex-col bg-[#0d0e0c] px-5 pb-6 text-white selection:bg-rose-900/60">
+      {/* Sheet Drag Indicator & Header */}
+      <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-white/20" />
+      <div className="mt-3 flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-neutral-400">
+          <X size={15} />
         </div>
-        <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] text-neutral-400">
-          Sentence Mode
-        </span>
+        <div className="text-center">
+          <div className="text-[12px] font-bold uppercase tracking-[0.14em] text-white">
+            Add Expense
+          </div>
+          <div className="text-[10px] font-medium text-neutral-400">Fill the sentence to save</div>
+        </div>
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-rose-500/15 text-rose-400">
+          <TrendingDown size={16} />
+        </div>
       </div>
 
-      {/* The Sentence Card */}
-      <div className="rounded-2xl border border-white/10 bg-[#171915] p-3.5 shadow-inner">
-        <p className="text-[13px] font-medium leading-[1.4] text-neutral-300">
+      {/* The Signature Natural Sentence */}
+      <div className="mt-4 rounded-2xl border border-white/10 bg-[#161815] p-4 shadow-inner">
+        <p className="text-[17px] font-semibold leading-[1.4] tracking-[-0.01em] text-neutral-200">
           I spent{" "}
-          <span className="rounded-md bg-rose-500/20 px-1.5 py-0.5 font-bold text-rose-400 border-b border-rose-500">
-            ₹320
+          <span className="inline-flex rounded-lg border border-rose-500/50 bg-rose-500/20 px-2 py-0.5 font-bold text-rose-400">
+            ₹450
           </span>{" "}
           on{" "}
-          <span className="rounded-md bg-amber-500/20 px-1.5 py-0.5 font-bold text-amber-400 border-b border-amber-500">
-            Coffee
+          <span className="inline-flex rounded-lg border border-amber-500/50 bg-amber-500/20 px-2 py-0.5 font-bold text-amber-300">
+            coffee
           </span>{" "}
-          at{" "}
-          <span className="rounded-md bg-indigo-500/20 px-1.5 py-0.5 font-bold text-indigo-400 border-b border-indigo-500">
-            Blue Tokai
+          as{" "}
+          <span className="inline-flex rounded-lg border border-violet-500/50 bg-violet-500/20 px-2 py-0.5 font-bold text-violet-300">
+            Food
           </span>{" "}
           from{" "}
-          <span className="rounded-md bg-emerald-500/20 px-1.5 py-0.5 font-bold text-emerald-400 border-b border-emerald-500">
-            Fi Account
-          </span>
-          .
+          <span className="inline-flex rounded-lg border border-emerald-500/50 bg-emerald-500/20 px-2 py-0.5 font-bold text-emerald-300">
+            Cash
+          </span>{" "}
+          today.
         </p>
+      </div>
+
+      {/* Quick Suggested Amounts */}
+      <div className="mt-4">
+        <div className="mb-2 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-neutral-400">
+          <span>Quick Amounts</span>
+          <span className="text-[10px] font-normal text-neutral-500">Tap to fill</span>
+        </div>
+        <div className="grid grid-cols-4 gap-2">
+          {["₹50", "₹100", "₹200", "₹450"].map((amt, idx) => (
+            <div
+              key={amt}
+              className={`rounded-xl border py-2 text-center text-[13px] font-bold transition-colors ${
+                idx === 3
+                  ? "border-rose-500/60 bg-rose-500/20 text-rose-300 shadow-sm"
+                  : "border-white/10 bg-[#161815] text-neutral-300"
+              }`}
+            >
+              {amt}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Category Grid */}
-      <div className="mt-3">
-        <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-neutral-500">
-          Popular Categories
+      <div className="mt-4">
+        <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-neutral-400">
+          Category
         </p>
-        <div className="grid grid-cols-3 gap-1.5">
+        <div className="grid grid-cols-3 gap-2">
           {[
             { icon: "☕", label: "Coffee", active: true },
             { icon: "🍔", label: "Food", active: false },
@@ -217,117 +311,193 @@ function Screen1Logging() {
           ].map((c) => (
             <div
               key={c.label}
-              className={`flex items-center gap-1.5 rounded-xl border p-2 text-[11px] font-medium ${
+              className={`flex items-center gap-2 rounded-xl border p-2.5 text-[12px] font-semibold ${
                 c.active
-                  ? "border-rose-500/50 bg-rose-500/15 text-rose-300"
-                  : "border-white/5 bg-[#171915] text-neutral-400"
+                  ? "border-rose-500/60 bg-rose-500/15 text-rose-200"
+                  : "border-white/10 bg-[#161815] text-neutral-400"
               }`}
             >
-              <span>{c.icon}</span>
+              <span className="text-[15px]">{c.icon}</span>
               <span className="truncate">{c.label}</span>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Account Selection */}
-      <div className="mt-3">
-        <p className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+      {/* Payment Account */}
+      <div className="mt-4">
+        <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-neutral-400">
           Paid With
         </p>
-        <div className="flex gap-1.5">
-          {["Fi Account", "HDFC Card", "Cash"].map((acc, i) => (
-            <span
-              key={acc}
-              className={`rounded-lg border px-2.5 py-1 text-[10px] font-semibold ${
-                i === 0
-                  ? "border-emerald-500/50 bg-emerald-500/15 text-emerald-300"
-                  : "border-white/5 bg-[#171915] text-neutral-400"
+        <div className="flex gap-2">
+          {[
+            { name: "Cash Wallet", active: true },
+            { name: "HDFC Card", active: false },
+            { name: "Fi Money", active: false },
+          ].map((acc) => (
+            <div
+              key={acc.name}
+              className={`rounded-xl border px-3 py-1.5 text-[11px] font-semibold ${
+                acc.active
+                  ? "border-emerald-500/60 bg-emerald-500/15 text-emerald-300"
+                  : "border-white/10 bg-[#161815] text-neutral-400"
               }`}
             >
-              {acc}
-            </span>
+              {acc.name}
+            </div>
           ))}
         </div>
       </div>
 
-      {/* Big Save Button */}
-      <div className="mt-auto pb-6">
-        <div className="w-full rounded-xl bg-rose-500 py-2.5 text-center text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-rose-950/50">
-          Save Expense · ₹320
-        </div>
+      {/* Big Action Button */}
+      <div className="mt-auto pt-4 mb-6">
+        <button
+          type="button"
+          tabIndex={-1}
+          className="w-full rounded-2xl bg-gradient-to-r from-rose-500 to-rose-600 py-3.5 text-center text-[13px] font-bold uppercase tracking-widest text-white shadow-lg shadow-rose-950/60 active:scale-[0.99]"
+        >
+          Save Expense · ₹450
+        </button>
       </div>
     </div>
   )
 }
 
-/** Screen 2: Live Today's Overview & Transactions Feed */
-function Screen2Dashboard() {
+/* -------------------------------------------------------------------------- */
+/* SCREEN 2: TODAY'S COMMAND CENTER (THE REAL MONEYSPENT DASHBOARD)            */
+/* -------------------------------------------------------------------------- */
+
+function Screen2DailyDashboard() {
   return (
-    <div className="flex h-full flex-col bg-[#0d0e0c] px-4 pt-10 text-white selection:bg-emerald-900/60">
-      {/* Header */}
-      <div className="mb-3 flex items-center justify-between">
+    <div className="flex h-full flex-col bg-[#0d0e0c] px-5 pb-6 text-white selection:bg-emerald-900/60">
+      {/* Top Header */}
+      <div className="mt-1 flex items-center justify-between">
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-wider text-neutral-500">
-            Overview
-          </p>
-          <h3 className="text-[18px] font-bold tracking-tight text-white">Today</h3>
+          <p className="text-[11px] font-medium tracking-wide text-neutral-400">Dashboard</p>
+          <h3 className="text-[22px] font-bold tracking-tight text-white">Hey Vinay</h3>
         </div>
-        <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-[#171915] px-2.5 py-1 text-[10px] font-medium text-emerald-400">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
+        <div className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-semibold text-emerald-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
           Realtime
         </div>
       </div>
 
+      {/* Date Switcher Bar */}
+      <div className="mt-3.5 flex items-center justify-between rounded-xl border border-white/10 bg-[#161815] px-3.5 py-2.5">
+        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/5 text-neutral-400">
+          <ChevronLeft size={16} />
+        </div>
+        <div className="text-center">
+          <p className="text-[13px] font-bold text-white">Friday, July 17</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+            5 Transactions
+          </p>
+        </div>
+        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/5 text-neutral-400 opacity-40">
+          <ChevronRight size={16} />
+        </div>
+      </div>
+
       {/* Spent Today Hero Tile */}
-      <div className="rounded-2xl border border-white/10 bg-[#171915] p-4 shadow-sm">
-        <div className="flex items-center justify-between text-neutral-400">
-          <span className="text-[10px] font-bold uppercase tracking-widest">Spent Today</span>
-          <span className="text-[10px] font-medium">May 14, 2026</span>
+      <div className="mt-3 rounded-2xl border border-white/10 bg-[#161815] p-4 shadow-sm">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-neutral-400">
+            Spent on this day
+          </span>
+          <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-medium text-neutral-300">
+            <Calendar size={11} className="text-neutral-400" />
+            <span>Jul 17</span>
+          </div>
         </div>
-        <div className="mt-1 flex items-baseline gap-1">
-          <span className="text-4xl font-extrabold text-white">₹1,240</span>
-          <span className="text-xs text-neutral-400">/ ₹2,000</span>
+
+        <div className="mt-2 flex items-baseline gap-2">
+          <span className="text-[42px] font-black tracking-tight text-white">₹500</span>
+          <span className="text-xs text-neutral-400">/ ₹2,000 budget</span>
         </div>
+
         {/* Progress Bar */}
-        <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-          <div className="h-full w-[62%] rounded-full bg-emerald-400" />
+        <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+          <div className="h-full w-[25%] rounded-full bg-emerald-400" />
         </div>
-        <div className="mt-2 flex items-center justify-between text-[10px] text-neutral-400">
-          <span>4 spends recorded</span>
-          <span className="text-emerald-400 font-semibold">62% daily cap</span>
+
+        <div className="mt-2 flex items-center justify-between text-[11px] text-neutral-400">
+          <span>5 transactions recorded</span>
+          <span className="font-semibold text-emerald-400">₹1,500 safe left</span>
+        </div>
+      </div>
+
+      {/* Quick Action Buttons */}
+      <div className="mt-3 grid grid-cols-2 gap-2.5">
+        <div className="flex items-center justify-center gap-2 rounded-xl border border-rose-500/30 bg-rose-500/10 py-2.5 text-[12px] font-semibold text-rose-300 shadow-sm">
+          <TrendingDown size={14} className="text-rose-400" />
+          <span>Add Expense</span>
+        </div>
+        <div className="flex items-center justify-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-2.5 text-[12px] font-semibold text-emerald-300 shadow-sm">
+          <TrendingUp size={14} className="text-emerald-400" />
+          <span>Add Income</span>
         </div>
       </div>
 
       {/* Transaction List */}
-      <div className="mt-3 flex-1 pb-6">
-        <div className="mb-2 flex items-center justify-between text-[11px] font-semibold text-neutral-400">
-          <span>Today&apos;s Records</span>
-          <span className="text-emerald-400">See all →</span>
+      <div className="mt-3.5 flex-1 pb-2">
+        <div className="mb-2 flex items-center justify-between text-[12px] font-bold text-neutral-300">
+          <span>Transactions</span>
+          <span className="flex items-center text-[11px] font-medium text-neutral-400 hover:text-white">
+            View all <ChevronRight size={13} className="ml-0.5" />
+          </span>
         </div>
-        <div className="space-y-1.5">
+
+        <div className="space-y-2">
           {[
-            { icon: "🍔", title: "Burger King", cat: "Food", acc: "HDFC", amount: "−₹450" },
-            { icon: "☕", title: "Blue Tokai", cat: "Drink", acc: "Fi", amount: "−₹320" },
-            { icon: "🚕", title: "Uber Cab", cat: "Travel", acc: "SBI", amount: "−₹280" },
-            { icon: "🥪", title: "Bakery", cat: "Food", acc: "Cash", amount: "−₹190" },
+            {
+              icon: "🧃",
+              title: "Drink",
+              acc: "SBI",
+              time: "4:12 PM",
+              amount: "− ₹150",
+              color: "text-rose-400",
+            },
+            {
+              icon: "🍔",
+              title: "Food",
+              acc: "Fi",
+              time: "4:12 PM",
+              amount: "− ₹50",
+              color: "text-rose-400",
+            },
+            {
+              icon: "🏥",
+              title: "Health",
+              acc: "Fi",
+              time: "4:12 PM",
+              amount: "− ₹200",
+              color: "text-rose-400",
+            },
+            {
+              icon: "🛒",
+              title: "Groceries",
+              acc: "Cash",
+              time: "2:05 PM",
+              amount: "− ₹100",
+              color: "text-rose-400",
+            },
           ].map((tx) => (
             <div
-              key={tx.title}
-              className="flex items-center justify-between rounded-xl border border-white/5 bg-[#171915] p-2 text-xs"
+              key={tx.title + tx.amount}
+              className="flex items-center justify-between rounded-xl border border-white/5 bg-[#161815] px-3 py-2 text-xs"
             >
-              <div className="flex items-center gap-2">
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/5 text-sm">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-[15px]">
                   {tx.icon}
                 </span>
                 <div>
-                  <p className="font-medium text-white">{tx.title}</p>
-                  <p className="text-[9px] text-neutral-500">
-                    {tx.cat} · {tx.acc}
+                  <p className="font-semibold text-white">
+                    {tx.title} · {tx.acc}
                   </p>
+                  <p className="text-[10px] text-neutral-400">{tx.time}</p>
                 </div>
               </div>
-              <span className="font-bold tabular-nums text-rose-400">{tx.amount}</span>
+              <span className={`font-bold tabular-nums ${tx.color}`}>{tx.amount}</span>
             </div>
           ))}
         </div>
@@ -336,62 +506,135 @@ function Screen2Dashboard() {
   )
 }
 
-/** Screen 3: Insights & Multi-Account Balances */
-function Screen3Insights() {
+/* -------------------------------------------------------------------------- */
+/* SCREEN 3: MULTI-ACCOUNT VAULT & INCOME LOGGER                               */
+/* -------------------------------------------------------------------------- */
+
+function Screen3IncomeAndAccounts() {
   return (
-    <div className="flex h-full flex-col bg-[#0d0e0c] px-4 pt-10 text-white selection:bg-indigo-900/60">
-      <div className="mb-3 flex items-center justify-between border-b border-white/10 pb-2">
-        <div className="flex items-center gap-1.5 text-xs text-indigo-400 font-bold uppercase tracking-wider">
-          <PieChart size={14} />
-          Category Trends
+    <div className="flex h-full flex-col bg-[#0d0e0c] px-5 pb-6 text-white selection:bg-cyan-900/60">
+      {/* Sheet Drag Indicator & Header */}
+      <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-white/20" />
+      <div className="mt-3 flex items-center justify-between border-b border-white/10 pb-3">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-neutral-400">
+          <X size={15} />
         </div>
-        <span className="text-[10px] text-neutral-400">This Month</span>
-      </div>
-
-      {/* Category Breakdown Bars */}
-      <div className="rounded-2xl border border-white/10 bg-[#171915] p-3.5 space-y-2.5">
-        {[
-          { label: "Food & Dining", pct: "44%", amount: "₹14,200", color: "bg-emerald-400" },
-          { label: "Bills & Utilities", pct: "32%", amount: "₹10,500", color: "bg-indigo-400" },
-          { label: "Shopping", pct: "16%", amount: "₹5,200", color: "bg-amber-400" },
-          { label: "Leisure", pct: "8%", amount: "₹2,600", color: "bg-rose-400" },
-        ].map((c) => (
-          <div key={c.label}>
-            <div className="flex justify-between text-[11px] mb-1">
-              <span className="font-medium text-neutral-300">{c.label}</span>
-              <span className="font-bold tabular-nums text-white">{c.amount}</span>
-            </div>
-            <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
-              <div className={`h-full rounded-full ${c.color}`} style={{ width: c.pct }} />
-            </div>
+        <div className="text-center">
+          <div className="text-[12px] font-bold uppercase tracking-[0.14em] text-white">
+            Add Income
           </div>
-        ))}
+          <div className="text-[10px] font-medium text-neutral-400">Fill the sentence to save</div>
+        </div>
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-400">
+          <TrendingUp size={16} />
+        </div>
       </div>
 
-      {/* Account Balances */}
-      <div className="mt-3 flex-1 pb-6">
-        <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-neutral-500">
-          Connected Balances
+      {/* The Signature Natural Sentence for Income */}
+      <div className="mt-4 rounded-2xl border border-white/10 bg-[#161815] p-4 shadow-inner">
+        <p className="text-[17px] font-semibold leading-[1.4] tracking-[-0.01em] text-neutral-200">
+          I received{" "}
+          <span className="inline-flex rounded-lg border border-emerald-500/50 bg-emerald-500/20 px-2 py-0.5 font-bold text-emerald-300">
+            ₹25,000
+          </span>{" "}
+          from{" "}
+          <span className="inline-flex rounded-lg border border-cyan-500/50 bg-cyan-500/20 px-2 py-0.5 font-bold text-cyan-300">
+            Salary
+          </span>{" "}
+          into{" "}
+          <span className="inline-flex rounded-lg border border-indigo-500/50 bg-indigo-500/20 px-2 py-0.5 font-bold text-indigo-300">
+            HDFC Bank
+          </span>{" "}
+          today.
         </p>
-        <div className="space-y-1.5">
-          {[
-            { name: "HDFC Savings", type: "Bank", bal: "₹42,850", color: "text-emerald-400" },
-            { name: "Fi Money", type: "UPI / Bank", bal: "₹18,400", color: "text-emerald-400" },
-            { name: "Cash Wallet", type: "Physical", bal: "₹3,500", color: "text-neutral-300" },
-            { name: "ICICI Card", type: "Credit", bal: "−₹6,200", color: "text-rose-400" },
-          ].map((acc) => (
+      </div>
+
+      {/* Quick Suggested Amounts */}
+      <div className="mt-4">
+        <div className="mb-2 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-neutral-400">
+          <span>Quick Amounts</span>
+          <span className="text-[10px] font-normal text-neutral-500">Tap to fill</span>
+        </div>
+        <div className="grid grid-cols-4 gap-2">
+          {["₹1k", "₹2.5k", "₹5k", "₹25k"].map((amt, idx) => (
             <div
-              key={acc.name}
-              className="flex items-center justify-between rounded-xl border border-white/5 bg-[#171915] p-2 text-xs"
+              key={amt}
+              className={`rounded-xl border py-2 text-center text-[13px] font-bold transition-colors ${
+                idx === 3
+                  ? "border-emerald-500/60 bg-emerald-500/20 text-emerald-300 shadow-sm"
+                  : "border-white/10 bg-[#161815] text-neutral-300"
+              }`}
             >
-              <div>
-                <p className="font-medium text-white">{acc.name}</p>
-                <p className="text-[9px] text-neutral-500">{acc.type}</p>
-              </div>
-              <span className={`font-bold tabular-nums ${acc.color}`}>{acc.bal}</span>
+              {amt}
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Account Vault Balances Preview */}
+      <div className="mt-4">
+        <div className="mb-2 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-neutral-400">
+          <span>Live Account Balances</span>
+          <span className="text-emerald-400 font-semibold">Updated</span>
+        </div>
+        <div className="space-y-2">
+          {[
+            {
+              name: "HDFC Savings",
+              type: "Salary Account",
+              icon: Building2,
+              bal: "₹42,850",
+              badge: "Primary",
+            },
+            {
+              name: "Fi Money",
+              type: "UPI / Digital Bank",
+              icon: CreditCard,
+              bal: "₹25,000",
+              badge: "+₹25k pending",
+            },
+            {
+              name: "Cash Wallet",
+              type: "Physical Cash",
+              icon: Wallet,
+              bal: "₹3,500",
+              badge: "Offline",
+            },
+          ].map((acc) => {
+            const IconComponent = acc.icon
+            return (
+              <div
+                key={acc.name}
+                className="flex items-center justify-between rounded-xl border border-white/5 bg-[#161815] px-3.5 py-2.5 text-xs"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/5 text-neutral-300">
+                    <IconComponent size={15} />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-white">{acc.name}</p>
+                    <p className="text-[10px] text-neutral-400">{acc.type}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="font-bold tabular-nums text-emerald-400">{acc.bal}</p>
+                  <p className="text-[9px] font-medium text-neutral-400">{acc.badge}</p>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* Big Action Button */}
+      <div className="mt-auto pt-4 mb-6">
+        <button
+          type="button"
+          tabIndex={-1}
+          className="w-full rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-600 py-3.5 text-center text-[13px] font-bold uppercase tracking-widest text-white shadow-lg shadow-emerald-950/60 active:scale-[0.99]"
+        >
+          Save Income · ₹25,000
+        </button>
       </div>
     </div>
   )

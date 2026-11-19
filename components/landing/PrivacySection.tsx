@@ -22,6 +22,82 @@ const points = [
   },
 ]
 
+/**
+ * Mechanical odometer-style number animation that rolls each digit through
+ * intermediate numbers when toggling between Ghost Mode (hidden dots) and plain numbers.
+ */
+function RollingPrivacyNumber({
+  value,
+  ghostMode,
+  className = "",
+  digitClassName = "",
+  dotClassName = "text-lp-em font-bold",
+}: {
+  value: string
+  ghostMode: boolean
+  className?: string
+  digitClassName?: string
+  dotClassName?: string
+}) {
+  const reduceMotion = useReducedMotion()
+  const characters = value.split("")
+
+  return (
+    <span
+      className={`inline-flex items-baseline font-mono select-none tracking-tight ${className}`}
+      style={{ fontVariantNumeric: "tabular-nums" }}
+      aria-label={ghostMode ? "Balance hidden" : value}
+    >
+      {characters.map((char, index) => {
+        const isDigit = char >= "0" && char <= "9"
+        const num = isDigit ? Number(char) : 0
+        // Vertical reel: starts with '•', intermediate numbers, ends on real character
+        const reel = isDigit
+          ? ["•", String((num + 3) % 10), String((num + 7) % 10), char]
+          : ["•", char]
+
+        const translatePercent = ghostMode ? 0 : -((reel.length - 1) * (100 / reel.length))
+
+        return (
+          <span
+            key={index}
+            className="relative inline-block h-[1.18em] overflow-hidden leading-none align-baseline"
+            style={{
+              maskImage:
+                "linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%)",
+            }}
+          >
+            <span
+              className="flex flex-col transition-transform will-change-transform"
+              style={{
+                transform: `translateY(${translatePercent}%)`,
+                transitionDuration: reduceMotion ? "0ms" : `${380 + index * 30}ms`,
+                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+            >
+              {reel.map((item, idx) => {
+                const isDot = item === "•"
+                return (
+                  <span
+                    key={idx}
+                    className={`flex h-[1.18em] items-center justify-center leading-none ${
+                      isDot ? dotClassName : digitClassName
+                    }`}
+                  >
+                    {item}
+                  </span>
+                )
+              })}
+            </span>
+          </span>
+        )
+      })}
+    </span>
+  )
+}
+
 export function PrivacySection() {
   const reduceMotion = useReducedMotion()
   const [ghostMode, setGhostMode] = useState(true)
@@ -71,10 +147,10 @@ export function PrivacySection() {
               </ul>
             </div>
 
-            {/* Right: Calm, theme-adaptive preview card */}
+            {/* Right: Calm, theme-adaptive preview card with mechanical number odometer */}
             <div className="flex justify-center lg:justify-end">
               <div className="w-full max-w-[380px] rounded-2xl border border-lp-line bg-lp-bg-2/50 p-5 sm:p-6">
-                {/* Header */}
+                {/* Header with tactile toggle switch */}
                 <div className="flex items-center justify-between border-b border-lp-line pb-3.5">
                   <div className="flex items-center gap-2">
                     <span className="flex h-6 w-6 items-center justify-center rounded-md bg-lp-em-soft text-lp-em">
@@ -85,46 +161,61 @@ export function PrivacySection() {
 
                   <button
                     type="button"
+                    role="switch"
+                    aria-checked={ghostMode}
                     onClick={() => setGhostMode((prev) => !prev)}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-lp-line bg-lp-card px-2.5 py-1 text-[11px] font-medium text-lp-ink-soft transition-colors hover:border-lp-em/30 hover:text-lp-ink"
+                    className="group flex items-center gap-2 rounded-full border border-lp-line bg-lp-card py-1 pl-2.5 pr-1.5 text-[11px] font-medium text-lp-ink-soft shadow-2xs transition-all hover:border-lp-em/30 hover:text-lp-ink active:scale-98"
                   >
-                    {ghostMode ? (
-                      <>
-                        <EyeOff size={12} className="text-lp-em" />
-                        <span>Ghost Mode ON</span>
-                      </>
-                    ) : (
-                      <>
-                        <Eye size={12} />
-                        <span>Ghost Mode OFF</span>
-                      </>
-                    )}
+                    <span className="flex items-center gap-1.5">
+                      {ghostMode ? (
+                        <EyeOff size={12} className="text-lp-em transition-colors" />
+                      ) : (
+                        <Eye size={12} className="text-lp-ink-mute transition-colors" />
+                      )}
+                      <span>Ghost Mode</span>
+                    </span>
+
+                    {/* Smooth sliding knob */}
+                    <span
+                      className={`relative inline-flex h-4 w-7 shrink-0 items-center rounded-full transition-colors duration-200 ease-out ${
+                        ghostMode
+                          ? "bg-lp-em"
+                          : "border border-lp-line bg-lp-bg-2 dark:bg-white/10"
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-3 w-3 rounded-full bg-white shadow-xs transition-transform duration-200 ease-out ${
+                          ghostMode ? "translate-x-3.5" : "translate-x-0.5"
+                        }`}
+                      />
+                    </span>
                   </button>
                 </div>
 
-                {/* Balance display */}
+                {/* Big Balance display with rolling number ticker */}
                 <div className="mt-4 rounded-xl border border-lp-line/70 bg-lp-card p-4 text-center shadow-2xs">
                   <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-lp-ink-mute">
                     Total Balance
                   </span>
-                  <div className="mt-2 flex items-center justify-center">
-                    {ghostMode ? (
-                      <span className="rounded-full bg-lp-em-soft px-3 py-1 font-mono text-base font-bold tracking-widest text-lp-em">
-                        ••••••••
-                      </span>
-                    ) : (
-                      <span className="font-mono text-2xl font-bold tracking-tight text-lp-ink">
-                        ₹2,48,500
-                      </span>
-                    )}
+
+                  <div className="mt-2.5 flex h-9 items-center justify-center">
+                    <RollingPrivacyNumber
+                      value="₹2,48,500"
+                      ghostMode={ghostMode}
+                      className="text-2xl font-bold"
+                      digitClassName="text-lp-ink"
+                      dotClassName="text-lp-em font-bold text-xl tracking-wider"
+                    />
                   </div>
+
                   <p className="mt-2 text-[11px] text-lp-ink-mute">
                     {ghostMode ? "Balances hidden in public" : "3 accounts · 100% On-device"}
                   </p>
                 </div>
 
-                {/* Account rows */}
+                {/* Account rows with rolling numbers */}
                 <div className="mt-3 space-y-1">
+                  {/* HDFC Salary */}
                   <div className="flex items-center justify-between rounded-lg px-2 py-1.5 text-[13px]">
                     <div className="flex items-center gap-2.5">
                       <span className="flex h-7 w-7 items-center justify-center rounded-md border border-lp-line bg-lp-card text-lp-em">
@@ -132,11 +223,19 @@ export function PrivacySection() {
                       </span>
                       <span className="font-medium text-lp-ink">HDFC Salary</span>
                     </div>
-                    <span className="font-mono text-xs text-lp-ink-mute">
-                      {ghostMode ? "••••••" : "₹1,42,000"}
-                    </span>
+
+                    <div className="flex h-5 items-center justify-end">
+                      <RollingPrivacyNumber
+                        value="₹1,42,000"
+                        ghostMode={ghostMode}
+                        className="text-xs"
+                        digitClassName="text-lp-ink-soft font-medium"
+                        dotClassName="text-lp-em font-bold text-[12px] tracking-wider"
+                      />
+                    </div>
                   </div>
 
+                  {/* Fi Savings */}
                   <div className="flex items-center justify-between rounded-lg px-2 py-1.5 text-[13px]">
                     <div className="flex items-center gap-2.5">
                       <span className="flex h-7 w-7 items-center justify-center rounded-md border border-lp-line bg-lp-card text-lp-indigo">
@@ -144,9 +243,16 @@ export function PrivacySection() {
                       </span>
                       <span className="font-medium text-lp-ink">Fi Savings</span>
                     </div>
-                    <span className="font-mono text-xs text-lp-ink-mute">
-                      {ghostMode ? "••••••" : "₹84,500"}
-                    </span>
+
+                    <div className="flex h-5 items-center justify-end">
+                      <RollingPrivacyNumber
+                        value="₹84,500"
+                        ghostMode={ghostMode}
+                        className="text-xs"
+                        digitClassName="text-lp-ink-soft font-medium"
+                        dotClassName="text-lp-em font-bold text-[12px] tracking-wider"
+                      />
+                    </div>
                   </div>
                 </div>
 

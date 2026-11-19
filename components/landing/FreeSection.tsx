@@ -26,10 +26,6 @@ export function FreeSection() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="lp-section-label">
-              <span className="inline-block h-1 w-1 rounded-full bg-lp-em" />
-              Pricing
-            </p>
             <h2 className="lp-display mt-4 text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
               Premium tracking,
               <br />
@@ -75,7 +71,9 @@ export function FreeSection() {
               </span>
               <span className="text-lg font-medium text-lp-ink-mute">/mo</span>
             </div>
-            <p className="mt-3 text-sm font-medium text-lp-ink-soft">Free forever for personal use</p>
+            <p className="mt-3 text-sm font-medium text-lp-ink-soft">
+              Free forever for personal use
+            </p>
 
             <Link
               href={onboardingUrl}

@@ -218,11 +218,6 @@ export function ScreenGallery() {
               </div>
             </motion.div>
           </motion.div>
-
-          {/* Quick Caption Helper */}
-          <p className="mt-14 text-center text-xs font-medium text-lp-ink-mute sm:text-[13px]">
-            Click any device or tab above to inspect the full interface.
-          </p>
         </motion.div>
       </div>
     </section>

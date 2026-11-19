@@ -6,11 +6,7 @@ import { ChevronDown } from "lucide-react"
 import posthog from "posthog-js"
 import { landingFaq } from "@/constant/faq"
 
-export function FaqSection({
-  customFaq,
-}: {
-  customFaq?: { question: string; answer: string }[]
-}) {
+export function FaqSection({ customFaq }: { customFaq?: { question: string; answer: string }[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
   const items = customFaq || landingFaq
 
@@ -25,10 +21,7 @@ export function FaqSection({
             viewport={{ once: true }}
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="lp-section-label">
-              <span className="inline-block h-1 w-1 rounded-full bg-lp-em" />
-              FAQ
-            </p>
+            <p className="lp-section-label">FAQ</p>
             <h2 className="lp-display mt-3 text-[32px] font-semibold tracking-[-0.03em] text-lp-ink sm:text-[40px]">
               Common questions
             </h2>

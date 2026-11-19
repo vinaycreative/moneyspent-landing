@@ -26,10 +26,6 @@ export function HeroSection({
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-12 xl:gap-16">
           {/* Left: copy */}
           <div className="text-center lg:text-left">
-            <p className="lp-hero-badge lp-section-label mx-auto lg:mx-0">
-              Personal finance tracker
-            </p>
-
             <h1 className="lp-hero-title lp-display mt-4 text-[36px] font-semibold leading-[1.08] tracking-[-0.03em] text-lp-ink sm:text-[52px] lg:text-[60px]">
               {title || (
                 <>

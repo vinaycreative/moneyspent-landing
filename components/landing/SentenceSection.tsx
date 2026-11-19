@@ -101,10 +101,6 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="lp-section-label">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-lp-em" />
-              Natural Language Logging
-            </p>
             <h2 className="lp-display mt-4 text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
               Add spends like
               <br />

@@ -171,7 +171,7 @@ function HeroCommandCenter() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.45, ease: EASE_OUT }}
-      className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] sm:col-span-2 lg:col-span-2"
+      className="group relative flex flex-col justify-between rounded-[24px] sm:rounded-[26px] border border-lp-line bg-lp-card p-4.5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] sm:col-span-2 lg:col-span-2"
     >
       {/* Run-in Copy */}
       <div className="mb-4">
@@ -185,7 +185,7 @@ function HeroCommandCenter() {
       </div>
 
       {/* Living Dashboard Preview */}
-      <div className="relative flex flex-1 flex-col justify-between overflow-hidden rounded-2xl border border-lp-line bg-lp-bg-2/40 p-4 dark:bg-black/30">
+      <div className="relative flex flex-1 flex-col justify-between overflow-hidden rounded-2xl border border-lp-line bg-lp-bg-2/40 p-3.5 sm:p-4 dark:bg-black/30">
         <div>
           {/* Ledger Header Bar */}
           <div className="flex flex-col gap-2.5 border-b border-lp-line/70 pb-3 sm:flex-row sm:items-center sm:justify-between">
@@ -219,17 +219,6 @@ function HeroCommandCenter() {
                   <span className="font-sans font-normal text-lp-ink-mute">/ ₹2,500 limit</span>
                 </p>
               </div>
-
-              {/* <div className="flex items-center gap-2">
-                <div className="hidden h-1.5 w-16 overflow-hidden rounded-full bg-lp-line sm:block">
-                  <motion.div
-                    className="h-full rounded-full bg-emerald-500"
-                    initial={reduceMotion ? false : { width: 0 }}
-                    animate={{ width: `${progressPercent}%` }}
-                    transition={{ duration: 0.35, ease: EASE_OUT }}
-                  />
-                </div>
-              </div> */}
             </div>
           </div>
 
@@ -273,11 +262,11 @@ function HeroCommandCenter() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
                   transition={{ duration: 0.22, delay: idx * 0.04, ease: EASE_OUT }}
-                  className="flex items-center justify-between rounded-xl border border-lp-line/70 bg-lp-card px-3 py-2 transition-colors hover:border-lp-em/30"
+                  className="flex items-center justify-between rounded-xl border border-lp-line/70 bg-lp-card px-3 py-2 transition-colors hover:border-lp-em/30 gap-2"
                 >
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-2.5 min-w-0">
                     <div
-                      className={`flex h-8 w-8 items-center justify-center rounded-lg transition-transform duration-200 ${
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-transform duration-200 ${
                         txn.category === "food"
                           ? "bg-amber-500/10 text-amber-600 dark:text-amber-400"
                           : txn.category === "groceries"
@@ -289,12 +278,12 @@ function HeroCommandCenter() {
                       {txn.category === "groceries" && <ShoppingBag size={15} strokeWidth={2} />}
                       {txn.category === "transport" && <Car size={15} strokeWidth={2} />}
                     </div>
-                    <div>
-                      <p className="text-[12px] font-semibold text-lp-ink">{txn.title}</p>
-                      <p className="text-[10px] text-lp-ink-mute">{txn.meta}</p>
+                    <div className="min-w-0">
+                      <p className="truncate text-[12px] font-semibold text-lp-ink">{txn.title}</p>
+                      <p className="truncate text-[10px] text-lp-ink-mute">{txn.meta}</p>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right shrink-0">
                     <span className="font-mono text-[12px] font-bold text-lp-ink">
                       {txn.amount}
                     </span>
@@ -446,7 +435,7 @@ function SearchHistoryCard() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.45, delay: 0.08, ease: EASE_OUT }}
-      className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
+      className="group relative flex flex-col justify-between rounded-[24px] sm:rounded-[26px] border border-lp-line bg-lp-card p-4.5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
     >
       {/* Run-in Copy */}
       <div className="mb-4">
@@ -459,7 +448,7 @@ function SearchHistoryCard() {
       </div>
 
       {/* Search Interactive Window */}
-      <div className="flex flex-1 flex-col justify-between rounded-2xl border border-lp-line bg-lp-bg-2/40 p-4 dark:bg-black/30">
+      <div className="flex flex-1 flex-col justify-between rounded-2xl border border-lp-line bg-lp-bg-2/40 p-3.5 sm:p-4 dark:bg-black/30">
         <div>
           {/* Natural Search Input Bar */}
           <div className="relative flex items-center rounded-xl border border-lp-line bg-lp-card px-2.5 py-1.5 shadow-2xs">
@@ -482,7 +471,7 @@ function SearchHistoryCard() {
           </div>
 
           {/* Quick Filter Tag Buttons */}
-          <div className="mt-2.5 flex items-center gap-1.5">
+          <div className="mt-2.5 flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
             {(["Coffee", "Uber", "Blinkit"] as const).map((q) => {
               const isSelected = activeQuery === q
               return (
@@ -490,7 +479,7 @@ function SearchHistoryCard() {
                   key={q}
                   type="button"
                   onClick={() => setActiveQuery(q)}
-                  className={`relative rounded-md px-2.5 py-1 text-[10px] font-semibold transition-colors cursor-pointer select-none ${
+                  className={`relative rounded-md px-2.5 py-1 text-[10px] font-semibold transition-colors cursor-pointer select-none shrink-0 ${
                     isSelected
                       ? "text-white"
                       : "bg-lp-card border border-lp-line text-lp-ink-soft hover:border-lp-em/40"
@@ -531,24 +520,24 @@ function SearchHistoryCard() {
                     initial={reduceMotion ? false : { opacity: 0, y: 4 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.18, delay: idx * 0.03, ease: EASE_OUT }}
-                    className="flex items-center justify-between rounded-xl border border-lp-line/70 bg-lp-card px-2.5 py-2.5 text-xs transition-colors hover:border-lp-em/30"
+                    className="flex items-center justify-between rounded-xl border border-lp-line/70 bg-lp-card px-2.5 py-2.5 text-xs transition-colors hover:border-lp-em/30 gap-2"
                   >
-                    <div className="flex items-center gap-2">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-md bg-lp-bg-2/70 text-lp-ink-soft">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-lp-bg-2/70 text-lp-ink-soft">
                         {item.category === "food" && <Coffee size={12} strokeWidth={2} />}
                         {item.category === "transit" && <Car size={12} strokeWidth={2} />}
                         {item.category === "groceries" && (
                           <ShoppingBag size={12} strokeWidth={2} />
                         )}
                       </div>
-                      <div>
-                        <p className="font-semibold text-lp-ink text-[11px]">{item.merchant}</p>
-                        <p className="text-[9px] text-lp-ink-mute">
+                      <div className="min-w-0">
+                        <p className="truncate font-semibold text-lp-ink text-[11px]">{item.merchant}</p>
+                        <p className="truncate text-[9px] text-lp-ink-mute">
                           {item.date} &middot; {item.tag}
                         </p>
                       </div>
                     </div>
-                    <span className="font-mono font-bold text-lp-ink text-[11px]">
+                    <span className="shrink-0 font-mono font-bold text-lp-ink text-[11px]">
                       {item.amount}
                     </span>
                   </motion.div>
@@ -639,7 +628,7 @@ function CategoryInsightsCard() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.45, delay: 0.04, ease: EASE_OUT }}
-      className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
+      className="group relative flex flex-col justify-between rounded-[24px] sm:rounded-[26px] border border-lp-line bg-lp-card p-4.5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
     >
       {/* Run-in Copy */}
       <div className="mb-4">
@@ -652,7 +641,7 @@ function CategoryInsightsCard() {
       </div>
 
       {/* Proportional Segmented Bar + Categories Preview */}
-      <div className="flex flex-1 flex-col justify-between rounded-2xl border border-lp-line bg-lp-bg-2/40 p-4 dark:bg-black/30">
+      <div className="flex flex-1 flex-col justify-between rounded-2xl border border-lp-line bg-lp-bg-2/40 p-3.5 sm:p-4 dark:bg-black/30">
         <div>
           {/* Horizontal Chart Reveal */}
           <motion.div
@@ -695,7 +684,7 @@ function CategoryInsightsCard() {
                   key={cat.id}
                   onMouseEnter={() => setActiveId(cat.id)}
                   onMouseLeave={() => setActiveId(null)}
-                  className={`relative flex items-center justify-between rounded-xl px-2.5 py-2.5 text-xs transition-colors cursor-pointer z-10 ${
+                  className={`relative flex items-center justify-between rounded-xl px-2.5 py-2.5 text-xs transition-colors cursor-pointer z-10 gap-2 ${
                     isHovered ? "text-lp-ink font-semibold" : "text-lp-ink-soft hover:text-lp-ink"
                   }`}
                 >
@@ -708,17 +697,17 @@ function CategoryInsightsCard() {
                     />
                   )}
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
                     <span
                       style={{ color: cat.color }}
                       className="flex h-5 w-5 items-center justify-center rounded-md bg-lp-bg-2/80 shrink-0"
                     >
                       <IconComponent size={12} strokeWidth={2} />
                     </span>
-                    <span className="text-[12px]">{cat.name}</span>
+                    <span className="truncate text-[12px]">{cat.name}</span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 shrink-0">
                     <span className="font-mono text-[11px] font-semibold">{cat.amount}</span>
                     <span
                       style={{ backgroundColor: `${cat.color}15`, color: cat.color }}
@@ -768,7 +757,7 @@ function TactileCardStack() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.45, delay: 0.1, ease: EASE_OUT }}
-      className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
+      className="group relative flex flex-col justify-between rounded-[24px] sm:rounded-[26px] border border-lp-line bg-lp-card p-4.5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
     >
       {/* Run-in Copy */}
       <div className="mb-4">
@@ -781,7 +770,7 @@ function TactileCardStack() {
       </div>
 
       {/* Account Cards Container */}
-      <div className="flex flex-1 flex-col justify-between rounded-2xl border border-lp-line bg-lp-bg-2/40 p-4 dark:bg-black/30">
+      <div className="flex flex-1 flex-col justify-between rounded-2xl border border-lp-line bg-lp-bg-2/40 p-3.5 sm:p-4 dark:bg-black/30">
         <div className="relative mx-auto w-full max-w-[270px] h-[150px] pt-1 select-none">
           {/* Card 2: Fi Federal Bank (Savings) */}
           <motion.div
@@ -939,7 +928,7 @@ function SpendRhythmCard() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.45, delay: 0.16, ease: EASE_OUT }}
-      className="group relative flex flex-col justify-between rounded-[26px] border border-lp-line bg-lp-card p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
+      className="group relative flex flex-col justify-between rounded-[24px] sm:rounded-[26px] border border-lp-line bg-lp-card p-4.5 sm:p-6 transition-all duration-300 hover:border-lp-em/30 hover:shadow-[0_12px_36px_rgba(0,0,0,0.04)] col-span-1"
     >
       {/* Run-in Copy */}
       <div className="mb-4">
@@ -952,10 +941,10 @@ function SpendRhythmCard() {
       </div>
 
       {/* Heatmap Preview Container */}
-      <div className="flex flex-1 flex-col justify-between rounded-2xl border border-lp-line bg-lp-bg-2/40 p-4 dark:bg-black/30">
+      <div className="flex flex-1 flex-col justify-between rounded-2xl border border-lp-line bg-lp-bg-2/40 p-3.5 sm:p-4 dark:bg-black/30">
         <div>
           {/* Day headers */}
-          <div className="grid grid-cols-7 gap-1.5 text-center text-[10px] font-semibold text-lp-ink-mute mb-2">
+          <div className="grid grid-cols-7 gap-1 sm:gap-1.5 text-center text-[10px] font-semibold text-lp-ink-mute mb-2">
             <span>M</span>
             <span>T</span>
             <span>W</span>
@@ -977,7 +966,7 @@ function SpendRhythmCard() {
                 },
               },
             }}
-            className="grid grid-cols-7 gap-1.5"
+            className="grid grid-cols-7 gap-1 sm:gap-1.5"
           >
             {HEATMAP_DAYS.map((item) => {
               const isToday = item.day === 17
@@ -1004,7 +993,7 @@ function SpendRhythmCard() {
                   onMouseEnter={() => setHoveredDay(item)}
                   onClick={() => setHoveredDay(item)}
                   aria-label={`Day ${item.day}: ₹${item.amount}`}
-                  className={`relative h-6.5 w-full rounded-md transition-colors duration-150 cursor-pointer ${bg} ${
+                  className={`relative h-6 sm:h-6.5 w-full rounded-md transition-colors duration-150 cursor-pointer ${bg} ${
                     isSelected ? "ring-2 ring-lp-ink ring-offset-1 z-10" : ""
                   } ${
                     isToday && !isSelected
@@ -1070,8 +1059,8 @@ export function FeaturesSection() {
   const reduceMotion = useReducedMotion()
 
   return (
-    <section id="features" className="py-20 lg:py-28 overflow-hidden">
-      <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
+    <section id="features" className="py-16 sm:py-20 lg:py-28 overflow-hidden">
+      <div className="mx-auto max-w-[1120px] px-4 sm:px-8">
         {/* Section Header */}
         <motion.div
           className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end"
@@ -1081,7 +1070,7 @@ export function FeaturesSection() {
           transition={{ duration: 0.5, ease: EASE_OUT }}
         >
           <div className="max-w-[540px]">
-            <h2 className="lp-display mt-4 text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
+            <h2 className="lp-display mt-4 text-[28px] min-[380px]:text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
               Everything you need.
               <br />
               Nothing you don&apos;t.
@@ -1100,7 +1089,7 @@ export function FeaturesSection() {
         </motion.div>
 
         {/* Bento Grid */}
-        <div className="mt-12 sm:mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
+        <div className="mt-10 sm:mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
           {/* Row 1: Hero UI (Today's Command Center, 2 cols) + Search & Filter (1 col) */}
           <HeroCommandCenter />
           <SearchHistoryCard />

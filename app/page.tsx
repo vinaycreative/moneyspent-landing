@@ -58,7 +58,7 @@ export const metadata = buildPageMetadata({
 
 export default function Home() {
   return (
-    <main className="lp-root min-h-svh">
+    <main className="lp-root min-h-svh overflow-x-clip">
       <JsonLd data={softwareApplicationJsonLd(homeDescription)} />
       <JsonLd data={faqJsonLd(faq)} />
       <JsonLd data={organizationJsonLd()} />

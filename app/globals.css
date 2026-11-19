@@ -1060,6 +1060,7 @@ input[type="number"] {
   background: var(--lp-bg);
   color: var(--lp-ink);
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 /* Soft atmosphere — cool stone wash, not flat cream */

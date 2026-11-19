@@ -17,16 +17,16 @@ export function FreeSection() {
   ]
 
   return (
-    <section id="pricing" className="py-20 lg:py-28">
-      <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
+    <section id="pricing" className="py-16 sm:py-20 lg:py-28">
+      <div className="mx-auto max-w-[1120px] px-4 sm:px-8">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h2 className="lp-display mt-4 text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
+            <h2 className="lp-display mt-4 text-[28px] min-[380px]:text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
               Premium tracking,
               <br />
               <span className="text-lp-em">completely free.</span>
@@ -60,13 +60,13 @@ export function FreeSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="rounded-[28px] border border-lp-line bg-lp-card p-8 text-center shadow-[var(--lp-shadow-sm)] sm:p-10"
+            className="rounded-[24px] sm:rounded-[28px] border border-lp-line bg-lp-card p-6 sm:p-10 text-center shadow-[var(--lp-shadow-sm)]"
           >
             <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-lp-ink-mute">
               Personal plan
             </span>
             <div className="mt-3 flex items-baseline justify-center gap-1">
-              <span className="lp-display text-[72px] font-semibold leading-none tracking-tighter text-lp-ink sm:text-[88px]">
+              <span className="lp-display text-[64px] sm:text-[88px] font-semibold leading-none tracking-tighter text-lp-ink">
                 $0
               </span>
               <span className="text-lg font-medium text-lp-ink-mute">/mo</span>

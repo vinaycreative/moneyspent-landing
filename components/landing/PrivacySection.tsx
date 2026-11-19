@@ -104,13 +104,13 @@ export function PrivacySection() {
 
   return (
     <section id="privacy" className="py-16 lg:py-24">
-      <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
+      <div className="mx-auto max-w-[1120px] px-4 sm:px-8">
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-hidden rounded-[28px] border border-lp-line bg-lp-card p-8 shadow-[var(--lp-shadow-sm)] sm:p-10 lg:p-12"
+          className="relative overflow-hidden rounded-[24px] sm:rounded-[28px] border border-lp-line bg-lp-card p-5 sm:p-10 lg:p-12 shadow-[var(--lp-shadow-sm)]"
         >
           {/* Soft ambient tint matching theme */}
           <div
@@ -118,10 +118,10 @@ export function PrivacySection() {
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,color-mix(in_srgb,var(--lp-em)_7%,transparent),transparent_65%)]"
           />
 
-          <div className="relative grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+          <div className="relative grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
             {/* Left: Trust narrative & points */}
             <div>
-              <h2 className="lp-display mt-3 text-[32px] font-semibold leading-[1.1] tracking-[-0.03em] text-lp-ink sm:text-[38px]">
+              <h2 className="lp-display mt-3 text-[28px] min-[380px]:text-[32px] font-semibold leading-[1.1] tracking-[-0.03em] text-lp-ink sm:text-[38px]">
                 Your finances deserve a quiet room.
               </h2>
               <p className="mt-3.5 max-w-md text-[15px] leading-relaxed text-lp-ink-soft sm:text-base">
@@ -149,9 +149,9 @@ export function PrivacySection() {
 
             {/* Right: Calm, theme-adaptive preview card with mechanical number odometer */}
             <div className="flex justify-center lg:justify-end">
-              <div className="w-full max-w-[380px] rounded-2xl border border-lp-line bg-lp-bg-2/50 p-5 sm:p-6">
+              <div className="w-full max-w-[380px] rounded-2xl border border-lp-line bg-lp-bg-2/50 p-4 sm:p-6">
                 {/* Header with tactile toggle switch */}
-                <div className="flex items-center justify-between border-b border-lp-line pb-3.5">
+                <div className="flex items-center justify-between gap-2 border-b border-lp-line pb-3.5">
                   <div className="flex items-center gap-2">
                     <span className="flex h-6 w-6 items-center justify-center rounded-md bg-lp-em-soft text-lp-em">
                       <Lock size={12} strokeWidth={2.2} />
@@ -164,7 +164,7 @@ export function PrivacySection() {
                     role="switch"
                     aria-checked={ghostMode}
                     onClick={() => setGhostMode((prev) => !prev)}
-                    className="group flex items-center gap-2 rounded-full border border-lp-line bg-lp-card py-1 pl-2.5 pr-1.5 text-[11px] font-medium text-lp-ink-soft shadow-2xs transition-all hover:border-lp-em/30 hover:text-lp-ink active:scale-98"
+                    className="group flex items-center gap-1.5 sm:gap-2 rounded-full border border-lp-line bg-lp-card py-1 pl-2 sm:pl-2.5 pr-1.5 text-[10.5px] sm:text-[11px] font-medium text-lp-ink-soft shadow-2xs transition-all hover:border-lp-em/30 hover:text-lp-ink active:scale-98"
                   >
                     <span className="flex items-center gap-1.5">
                       {ghostMode ? (
@@ -202,9 +202,9 @@ export function PrivacySection() {
                     <RollingPrivacyNumber
                       value="₹2,48,500"
                       ghostMode={ghostMode}
-                      className="text-2xl font-bold"
+                      className="text-xl sm:text-2xl font-bold"
                       digitClassName="text-lp-ink"
-                      dotClassName="text-lp-em font-bold text-xl tracking-wider"
+                      dotClassName="text-lp-em font-bold text-lg sm:text-xl tracking-wider"
                     />
                   </div>
 

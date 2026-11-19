@@ -53,8 +53,8 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-lp-line bg-lp-bg">
-      <div className="mx-auto max-w-[1120px] px-5 pt-14 sm:px-8">
-        <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
+      <div className="mx-auto max-w-[1120px] px-4 pt-12 sm:px-8 sm:pt-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
           <div>
             <Link href="/" className="group inline-flex items-center gap-2.5">
               <span className="grid size-9 place-items-center rounded-lg border border-lp-line bg-lp-card">
@@ -72,7 +72,7 @@ export function SiteFooter() {
               </span>
             </Link>
 
-            <h2 className="lp-display mt-8 max-w-[420px] text-[32px] font-semibold leading-[1.05] tracking-[-0.035em] text-lp-ink sm:text-[40px]">
+            <h2 className="lp-display mt-8 max-w-[420px] text-[28px] min-[380px]:text-[32px] font-semibold leading-[1.05] tracking-[-0.035em] text-lp-ink sm:text-[40px]">
               Spend clearer.
               <br />
               Save calmer.
@@ -83,7 +83,7 @@ export function SiteFooter() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3">
+          <div className="grid grid-cols-2 gap-x-5 gap-y-8 min-[480px]:gap-8 sm:grid-cols-3">
             {cols.map(({ title, links }) => (
               <div key={title}>
                 <h3 className="mb-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-lp-ink">

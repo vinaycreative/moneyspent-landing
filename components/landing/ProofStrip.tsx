@@ -176,13 +176,13 @@ export function ProofStrip() {
       aria-label="Product highlights"
       className="border-y border-lp-line/80 bg-lp-bg select-none"
     >
-      <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
+      <div className="mx-auto max-w-[1120px] px-4 sm:px-8">
         <motion.div
           initial={reduceMotion ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.4 }}
-          className="grid grid-cols-2 divide-y divide-lp-line/60 sm:divide-y-0 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-lp-line/80"
+          className="grid grid-cols-1 divide-y divide-lp-line/60 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x lg:divide-lp-line/80"
         >
           {PROOF_ITEMS.map((item, index) => {
             const isHovered = hoveredIndex === index
@@ -199,8 +199,8 @@ export function ProofStrip() {
                 }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className={`group flex items-center gap-3.5 sm:gap-4 py-4.5 sm:py-5 cursor-default transition-all duration-200 ${
-                  index % 2 !== 0 ? "pl-4 sm:pl-6" : "pr-4 sm:pr-6"
+                className={`group flex items-center gap-3.5 sm:gap-4 py-3.5 sm:py-5 cursor-default transition-all duration-200 ${
+                  index % 2 !== 0 ? "sm:pl-6 sm:pr-0" : "sm:pr-6 sm:pl-0"
                 } ${
                   index === 0
                     ? "lg:pl-0 lg:pr-6"
@@ -218,7 +218,7 @@ export function ProofStrip() {
                 >
                   {item.renderIcon(isHovered)}
                 </div>
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                   <div
                     className={`truncate text-[13.5px] font-semibold leading-tight transition-colors duration-200 ${
                       isHovered ? "text-lp-ink" : "text-lp-ink"

@@ -16,7 +16,7 @@ export function RelatedLinks({
 
   return (
     <section className="border-t border-lp-line py-14 lg:py-16">
-      <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
+      <div className="mx-auto max-w-[1120px] px-4 sm:px-8">
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -27,7 +27,7 @@ export function RelatedLinks({
           <h2 className="lp-display text-xl font-semibold tracking-[-0.02em] text-lp-ink sm:text-2xl">
             {title}
           </h2>
-          <ul className="mt-5 flex flex-wrap justify-center gap-2.5">
+          <ul className="mt-5 flex flex-wrap justify-center gap-2 sm:gap-2.5">
             {links.map((link, i) => (
               <motion.li
                 key={link.href}
@@ -38,7 +38,7 @@ export function RelatedLinks({
               >
                 <Link
                   href={link.href}
-                  className="inline-flex rounded-full border border-lp-line bg-lp-card px-4 py-2 text-sm font-medium text-lp-ink-soft transition-all duration-200 hover:-translate-y-0.5 hover:border-lp-em/30 hover:text-lp-ink hover:shadow-xs"
+                  className="inline-flex rounded-full border border-lp-line bg-lp-card px-3.5 sm:px-4 py-1.5 sm:py-2 text-[13px] sm:text-sm font-medium text-lp-ink-soft transition-all duration-200 hover:-translate-y-0.5 hover:border-lp-em/30 hover:text-lp-ink hover:shadow-xs"
                 >
                   {link.label}
                 </Link>

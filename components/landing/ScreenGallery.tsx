@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import { useTheme } from "next-themes"
 import {
   Calendar,
-  Check,
   ChevronLeft,
   ChevronRight,
   TrendingDown,
@@ -15,7 +14,7 @@ import {
   Wallet,
 } from "lucide-react"
 import { Phone } from "@/components/stageshow/phone"
-import { motion, useReducedMotion, type Variants } from "motion/react"
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "motion/react"
 
 const TABS = [
   {
@@ -25,6 +24,7 @@ const TABS = [
     dotColor: "bg-rose-500",
     activeText: "text-rose-600 dark:text-rose-400",
     badge: "⚡ 3-Tap Sentence Logging",
+    tagline: "Fill the natural sentence in seconds. No tedious form fields.",
   },
   {
     id: 1,
@@ -33,20 +33,23 @@ const TABS = [
     dotColor: "bg-emerald-500",
     activeText: "text-emerald-600 dark:text-emerald-400",
     badge: "★ Real-time Daily Ledger",
+    tagline: "Track today's budget, daily streak, and live ledger at a glance.",
   },
   {
     id: 2,
     title: "Income & Accounts",
-    shortLabel: "Income",
+    shortLabel: "Accounts",
     dotColor: "bg-cyan-500",
     activeText: "text-cyan-600 dark:text-cyan-400",
     badge: "💰 Income & Account Vault",
+    tagline: "Log income and monitor cash, UPI, and bank account balances.",
   },
 ] as const
 
 export function ScreenGallery() {
   const reduceMotion = useReducedMotion()
   const [activeScreen, setActiveScreen] = useState<0 | 1 | 2>(1)
+  const [slideDirection, setSlideDirection] = useState<number>(1)
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
@@ -55,6 +58,22 @@ export function ScreenGallery() {
   }, [])
 
   const isDark = mounted ? resolvedTheme === "dark" : false
+
+  const goToPrev = () => {
+    setSlideDirection(-1)
+    setActiveScreen((prev) => (prev === 0 ? 2 : ((prev - 1) as 0 | 1 | 2)))
+  }
+
+  const goToNext = () => {
+    setSlideDirection(1)
+    setActiveScreen((prev) => (prev === 2 ? 0 : ((prev + 1) as 0 | 1 | 2)))
+  }
+
+  const handleTabSelect = (id: 0 | 1 | 2) => {
+    if (id === activeScreen) return
+    setSlideDirection(id > activeScreen ? 1 : -1)
+    setActiveScreen(id)
+  }
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -85,7 +104,7 @@ export function ScreenGallery() {
 
   return (
     <section className="overflow-hidden py-16 lg:py-28 text-lp-ink">
-      <div className="mx-auto max-w-[1160px] px-5 text-center sm:px-8">
+      <div className="mx-auto max-w-[1160px] px-4 text-center sm:px-8">
         {/* Section Header */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 16 }}
@@ -93,7 +112,7 @@ export function ScreenGallery() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          <h2 className="lp-display mx-auto mt-3 max-w-[640px] text-[34px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[44px] lg:text-[50px]">
+          <h2 className="lp-display mx-auto mt-3 max-w-[640px] text-[28px] min-[380px]:text-[34px] font-semibold leading-[1.1] tracking-[-0.03em] sm:text-[44px] lg:text-[50px]">
             Built for how people actually spend.
           </h2>
 
@@ -102,27 +121,186 @@ export function ScreenGallery() {
           </p>
         </motion.div>
 
+        {/* Interactive Screen Selector Tabs */}
+        <div className="mt-6 flex items-center justify-center gap-2 overflow-x-auto px-2 no-scrollbar">
+          {TABS.map((tab) => {
+            const isActive = activeScreen === tab.id
+            return (
+              <button
+                key={tab.id}
+                id={`gallery-tab-${tab.id}`}
+                type="button"
+                onClick={() => handleTabSelect(tab.id as 0 | 1 | 2)}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-all cursor-pointer select-none ${
+                  isActive
+                    ? "bg-lp-ink text-lp-bg shadow-xs"
+                    : "border border-lp-line bg-lp-card text-lp-ink-soft hover:border-lp-line-strong hover:text-lp-ink"
+                }`}
+              >
+                <span className={`size-1.5 rounded-full ${tab.dotColor}`} />
+                <span className="hidden min-[380px]:inline">{tab.title}</span>
+                <span className="min-[380px]:hidden">{tab.shortLabel}</span>
+              </button>
+            )
+          })}
+        </div>
+
         {/* Device Stage with Authentic Stageshow Pro Phones */}
         <motion.div
           initial={reduceMotion ? false : { opacity: 0, y: 32 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto mt-10 overflow-hidden rounded-[32px] border border-lp-line bg-lp-bg-2/50 px-4 py-10 sm:mt-12 sm:rounded-[44px] sm:px-8 sm:py-16 lg:py-20"
+          className="relative mx-auto mt-8 sm:mt-12 overflow-hidden rounded-[28px] sm:rounded-[44px] border border-lp-line bg-lp-bg-2/50 px-3 py-6 sm:px-8 sm:py-16 lg:py-20"
         >
-          {/* Subtle Ambient Glow */}
+          {/* Subtle Ambient Radial Highlight */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_55%_at_50%_35%,color-mix(in_srgb,var(--lp-em)_14%,transparent),transparent_75%)]"
           />
+          {/* Dynamic Ambient Glow tuned to active screen */}
           <div
             aria-hidden
-            className="pointer-events-none absolute -bottom-24 left-1/2 h-[180px] w-[560px] -translate-x-1/2 rounded-full bg-emerald-500/10 blur-[80px]"
+            className={`pointer-events-none absolute -bottom-20 left-1/2 h-[220px] w-full max-w-[560px] -translate-x-1/2 rounded-full blur-[80px] transition-colors duration-700 ${
+              activeScreen === 0
+                ? "bg-rose-500/18"
+                : activeScreen === 1
+                ? "bg-emerald-500/18"
+                : "bg-cyan-500/18"
+            }`}
           />
 
-          {/* Phones Container */}
+          {/* ------------------------------------------------------------------ */}
+          {/* MOBILE VIEW (< sm): Focused interactive single-phone showcase      */}
+          {/* ------------------------------------------------------------------ */}
+          <div className="block sm:hidden">
+            {/* Active Screen Context Pill */}
+            <div className="mb-4 text-center">
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${
+                  activeScreen === 0
+                    ? "border border-rose-500/30 bg-rose-500/10 text-rose-600 dark:text-rose-400"
+                    : activeScreen === 1
+                    ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                    : "border border-cyan-500/30 bg-cyan-500/10 text-cyan-600 dark:text-cyan-400"
+                }`}
+              >
+                {TABS[activeScreen].badge}
+              </span>
+              <p className="mx-auto mt-1.5 max-w-[280px] text-xs text-lp-ink-mute">
+                {TABS[activeScreen].tagline}
+              </p>
+            </div>
+
+            {/* Active Phone Presentation */}
+            <div className="relative mx-auto flex items-center justify-center">
+              <div className="relative overflow-hidden py-1">
+                <AnimatePresence mode="wait" initial={false} custom={slideDirection}>
+                  <motion.div
+                    key={activeScreen}
+                    custom={slideDirection}
+                    variants={{
+                      enter: (direction: number) => ({
+                        x: direction > 0 ? 36 : -36,
+                        opacity: 0,
+                      }),
+                      center: {
+                        x: 0,
+                        opacity: 1,
+                        transition: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+                      },
+                      exit: (direction: number) => ({
+                        x: direction > 0 ? -36 : 36,
+                        opacity: 0,
+                        transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] },
+                      }),
+                    }}
+                    initial={reduceMotion ? false : "enter"}
+                    animate="center"
+                    exit={reduceMotion ? undefined : "exit"}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(_, { offset, velocity }) => {
+                      if (offset.x < -40 || velocity.x < -300) {
+                        goToNext()
+                      } else if (offset.x > 40 || velocity.x > 300) {
+                        goToPrev()
+                      }
+                    }}
+                    className="relative flex justify-center touch-pan-y cursor-grab active:cursor-grabbing"
+                  >
+                    <Phone
+                      width={272}
+                      frame="pro"
+                      time="9:41"
+                      island={true}
+                      status={true}
+                      dark={isDark}
+                      className={`transition-shadow duration-500 ${
+                        activeScreen === 0
+                          ? "shadow-[0_20px_50px_rgba(244,63,94,0.22)] ring-1 ring-rose-500/30"
+                          : activeScreen === 1
+                          ? "shadow-[0_20px_50px_rgba(16,185,129,0.22)] ring-1 ring-emerald-500/35"
+                          : "shadow-[0_20px_50px_rgba(6,182,212,0.2)] ring-1 ring-cyan-500/30"
+                      }`}
+                    >
+                      {activeScreen === 0 && <Screen1ExpenseLogging />}
+                      {activeScreen === 1 && <Screen2DailyDashboard />}
+                      {activeScreen === 2 && <Screen3IncomeAndAccounts />}
+                    </Phone>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* Mobile Controls: Prev Button, Indicator Dots, Next Button */}
+            <div className="mt-5 flex items-center justify-center gap-4">
+              <button
+                type="button"
+                onClick={goToPrev}
+                aria-label="Previous screen"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-lp-line bg-lp-card text-lp-ink shadow-xs hover:border-lp-line-strong active:scale-95 transition-all"
+              >
+                <ChevronLeft size={18} />
+              </button>
+
+              <div className="flex items-center gap-2">
+                {TABS.map((tab) => (
+                  <button
+                    key={tab.id}
+                    type="button"
+                    onClick={() => handleTabSelect(tab.id as 0 | 1 | 2)}
+                    aria-label={`Go to ${tab.title}`}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      activeScreen === tab.id
+                        ? `w-6 ${tab.dotColor}`
+                        : "w-2 bg-lp-line hover:bg-lp-ink-soft/40"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={goToNext}
+                aria-label="Next screen"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-lp-line bg-lp-card text-lp-ink shadow-xs hover:border-lp-line-strong active:scale-95 transition-all"
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+
+            <p className="mt-2 text-[11px] text-lp-ink-mute">
+              Swipe left/right or tap arrows to explore ({activeScreen + 1} of 3)
+            </p>
+          </div>
+
+          {/* ------------------------------------------------------------------ */}
+          {/* DESKTOP VIEW (>= sm): 3-Phone Overlapping Fan Stage                */}
+          {/* ------------------------------------------------------------------ */}
           <motion.div
-            className="relative flex items-center justify-start gap-4 overflow-x-auto pb-4 scrollbar-hide sm:justify-center sm:gap-0 sm:overflow-visible sm:-space-x-8 md:-space-x-10 lg:-space-x-12"
+            className="hidden sm:flex sm:items-center sm:justify-center sm:overflow-visible sm:-space-x-8 md:-space-x-10 lg:-space-x-12"
             variants={containerVariants}
             initial={reduceMotion ? false : "hidden"}
             whileInView="visible"
@@ -130,9 +308,10 @@ export function ScreenGallery() {
           >
             {/* Phone 1 (Left): Sentence Logging Flow */}
             <motion.div
+              id="gallery-phone-0"
               custom={0}
               variants={phoneVariants}
-              onClick={() => setActiveScreen(0)}
+              onClick={() => handleTabSelect(0)}
               className={`relative shrink-0 cursor-pointer transition-all duration-500 ease-out ${
                 activeScreen === 0
                   ? "z-30 scale-100 sm:scale-[1.05] sm:-translate-y-3 rotate-0"
@@ -160,9 +339,10 @@ export function ScreenGallery() {
 
             {/* Phone 2 (Center Hero): Today's Command Center */}
             <motion.div
+              id="gallery-phone-1"
               custom={1}
               variants={phoneVariants}
-              onClick={() => setActiveScreen(1)}
+              onClick={() => handleTabSelect(1)}
               className={`relative shrink-0 cursor-pointer transition-all duration-500 ease-out ${
                 activeScreen === 1
                   ? "z-30 scale-100 sm:scale-[1.06] sm:-translate-y-4 rotate-0"
@@ -190,9 +370,10 @@ export function ScreenGallery() {
 
             {/* Phone 3 (Right): Multi-Account & Income */}
             <motion.div
+              id="gallery-phone-2"
               custom={2}
               variants={phoneVariants}
-              onClick={() => setActiveScreen(2)}
+              onClick={() => handleTabSelect(2)}
               className={`relative shrink-0 cursor-pointer transition-all duration-500 ease-out ${
                 activeScreen === 2
                   ? "z-30 scale-100 sm:scale-[1.05] sm:-translate-y-3 rotate-0"

@@ -91,9 +91,9 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
   }
 
   return (
-    <section id="sentence" className="py-20 lg:py-28 overflow-hidden">
-      <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-12 xl:gap-16">
+    <section id="sentence" className="py-16 sm:py-20 lg:py-28 overflow-hidden">
+      <div className="mx-auto max-w-[1120px] px-4 sm:px-8">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-12 xl:gap-16">
           {/* Left Column: Copy & Narrative */}
           <motion.div
             initial={reduceMotion ? false : { opacity: 0, y: 24 }}
@@ -101,7 +101,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h2 className="lp-display mt-4 text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
+            <h2 className="lp-display mt-4 text-[28px] min-[380px]:text-[34px] font-semibold leading-[1.08] tracking-[-0.035em] text-lp-ink sm:text-[44px] lg:text-[52px]">
               Add spends like
               <br />
               writing a note.
@@ -192,16 +192,16 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
             {/* Ambient Product Glow */}
             <div
               aria-hidden
-              className="pointer-events-none absolute -inset-4 rounded-[40px] bg-[radial-gradient(ellipse_at_center,color-mix(in_srgb,var(--lp-em)_14%,transparent),transparent_70%)] blur-2xl -z-10"
+              className="pointer-events-none absolute -inset-2 sm:-inset-4 rounded-[40px] bg-[radial-gradient(ellipse_at_center,color-mix(in_srgb,var(--lp-em)_14%,transparent),transparent_70%)] blur-2xl -z-10"
             />
 
             {/* Actual MoneySpent Mobile Sheet UI */}
-            <div className="rounded-[2.2rem] sm:rounded-[2.4rem] border border-lp-line bg-lp-card p-5 sm:p-7 shadow-[var(--lp-shadow-lg)]">
+            <div className="rounded-[2rem] sm:rounded-[2.4rem] border border-lp-line bg-lp-card p-4 sm:p-7 shadow-[var(--lp-shadow-lg)]">
               {/* Sheet Drag Handle */}
               <div className="mx-auto mb-3 h-1 w-10 rounded-full bg-lp-line" />
 
               {/* Sheet Header */}
-              <div className="grid grid-cols-[2.25rem_1fr_2.25rem] items-center gap-3 border-b border-lp-line pb-3.5 pt-1 text-center">
+              <div className="grid grid-cols-[2rem_1fr_2rem] sm:grid-cols-[2.25rem_1fr_2.25rem] items-center gap-2 sm:gap-3 border-b border-lp-line pb-3.5 pt-1 text-center">
                 <button
                   type="button"
                   aria-label="Close sheet"
@@ -225,12 +225,12 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
               </div>
 
               {/* The Live Interactive Sentence (Exact Product SentenceChip Design) */}
-              <div className="py-5">
-                <p className="text-[22px] sm:text-[24px] font-black leading-[1.3] tracking-tight text-lp-ink">
+              <div className="py-4 sm:py-5">
+                <p className="text-[19px] min-[380px]:text-[21px] sm:text-[24px] font-black leading-[1.35] tracking-tight text-lp-ink">
                   I spent {/* Amount Chip */}
                   <span
                     onClick={() => setActiveField("amount")}
-                    className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-2 py-0.5 transition-all select-none ${
+                    className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-1.5 sm:px-2 py-0.5 transition-all select-none ${
                       activeField === "amount"
                         ? "bg-rose-500/15 border-rose-500 text-rose-600 dark:text-rose-400 shadow-2xs scale-[1.03]"
                         : "bg-lp-bg-2 border-lp-line text-rose-600 dark:text-rose-400"
@@ -241,7 +241,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                   on {/* Note Chip */}
                   <span
                     onClick={() => setActiveField("note")}
-                    className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-2 py-0.5 transition-all select-none ${
+                    className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-1.5 sm:px-2 py-0.5 transition-all select-none ${
                       activeField === "note"
                         ? "bg-lp-ink/10 border-lp-ink text-lp-ink shadow-2xs scale-[1.03]"
                         : "bg-lp-bg-2 border-lp-line text-lp-ink"
@@ -252,7 +252,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                   for {/* Category Chip */}
                   <span
                     onClick={() => setActiveField("category")}
-                    className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-2 py-0.5 transition-all select-none ${
+                    className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-1.5 sm:px-2 py-0.5 transition-all select-none ${
                       activeField === "category"
                         ? "bg-amber-500/15 border-amber-500 text-amber-700 dark:text-amber-400 shadow-2xs scale-[1.03]"
                         : "bg-lp-bg-2 border-lp-line text-amber-700 dark:text-amber-400"
@@ -263,7 +263,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                   from {/* Account Chip */}
                   <span
                     onClick={() => setActiveField("account")}
-                    className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-2 py-0.5 transition-all select-none ${
+                    className={`inline-flex cursor-pointer items-center rounded-md border-b-2 border-dashed px-1.5 sm:px-2 py-0.5 transition-all select-none ${
                       activeField === "account"
                         ? "bg-emerald-500/15 border-emerald-500 text-emerald-700 dark:text-emerald-400 shadow-2xs scale-[1.03]"
                         : "bg-lp-bg-2 border-lp-line text-emerald-700 dark:text-emerald-400"
@@ -387,7 +387,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                       <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-lp-ink-mute">
                         Choose Category
                       </p>
-                      <div className="grid grid-cols-3 gap-1.5">
+                      <div className="grid grid-cols-3 gap-1 sm:gap-1.5">
                         {CATEGORIES.map((c) => (
                           <button
                             key={c.id}
@@ -397,7 +397,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                               setActiveField("account")
                               setSaved(false)
                             }}
-                            className={`flex items-center gap-1.5 rounded-xl border p-2 text-xs font-semibold transition-all cursor-pointer ${
+                            className={`flex items-center gap-1 sm:gap-1.5 rounded-lg sm:rounded-xl border p-1.5 sm:p-2 text-[11px] sm:text-xs font-semibold transition-all cursor-pointer ${
                               category.id === c.id
                                 ? "border-amber-500 bg-amber-500/15 text-amber-800 dark:text-amber-300 shadow-2xs"
                                 : "border-lp-line bg-lp-card text-lp-ink hover:bg-lp-bg-2"
@@ -423,7 +423,7 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                       <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-lp-ink-mute">
                         Choose Account
                       </p>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
                         {ACCOUNTS.map((acc) => (
                           <button
                             key={acc.id}
@@ -432,13 +432,13 @@ export function SentenceSection({}: { sentenceWords?: unknown } = {}) {
                               setAccount(acc)
                               setSaved(false)
                             }}
-                            className={`flex items-center gap-2 rounded-xl border p-2.5 text-xs font-semibold transition-all cursor-pointer ${
+                            className={`flex items-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-xl border p-2 sm:p-2.5 text-[11px] sm:text-xs font-semibold transition-all cursor-pointer ${
                               account.id === acc.id
                                 ? "border-emerald-500 bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 shadow-2xs"
                                 : "border-lp-line bg-lp-card text-lp-ink hover:bg-lp-bg-2"
                             }`}
                           >
-                            <span className="h-2 w-2 rounded-full bg-lp-em" />
+                            <span className="h-2 w-2 rounded-full bg-lp-em shrink-0" />
                             <span className="truncate">{acc.label}</span>
                           </button>
                         ))}

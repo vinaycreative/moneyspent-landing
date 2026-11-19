@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import {
   ArrowUpRight,
@@ -38,42 +38,121 @@ interface TodayTxn {
   category: "food" | "groceries" | "transport"
 }
 
-const TODAY_TXNS: TodayTxn[] = [
-  {
-    id: "t1",
-    title: "Blue Tokai Coffee",
-    meta: "Food & Dining · Fi Money · 10:14 AM",
-    tag: "Morning espresso",
-    amount: "-₹240",
-    amountNum: 240,
-    category: "food",
-  },
-  {
-    id: "t2",
-    title: "Blinkit Quick Mart",
-    meta: "Groceries · HDFC · 01:45 PM",
-    tag: "Pantry supplies",
-    amount: "-₹550",
-    amountNum: 550,
-    category: "groceries",
-  },
-  {
-    id: "t3",
-    title: "Uber Premier",
-    meta: "Transport · Cash · 06:20 PM",
-    tag: "Office commute",
-    amount: "-₹450",
-    amountNum: 450,
-    category: "transport",
-  },
+const DAILY_SCENARIOS: TodayTxn[][] = [
+  // Scenario 1: Workday Coffee & Commute
+  [
+    {
+      id: "t1",
+      title: "Blue Tokai Coffee",
+      meta: "Food & Dining · Fi Money · 10:14 AM",
+      tag: "Morning espresso",
+      amount: "-₹240",
+      amountNum: 240,
+      category: "food",
+    },
+    {
+      id: "t2",
+      title: "Blinkit Quick Mart",
+      meta: "Groceries · HDFC · 01:45 PM",
+      tag: "Pantry supplies",
+      amount: "-₹550",
+      amountNum: 550,
+      category: "groceries",
+    },
+    {
+      id: "t3",
+      title: "Uber Premier",
+      meta: "Transport · Cash · 06:20 PM",
+      tag: "Office commute",
+      amount: "-₹450",
+      amountNum: 450,
+      category: "transport",
+    },
+  ],
+  // Scenario 2: Midweek Fuel & Supermarket
+  [
+    {
+      id: "t1",
+      title: "Third Wave Coffee",
+      meta: "Food & Dining · Fi Money · 09:30 AM",
+      tag: "Flat white",
+      amount: "-₹280",
+      amountNum: 280,
+      category: "food",
+    },
+    {
+      id: "t2",
+      title: "Nature's Basket",
+      meta: "Groceries · HDFC · 02:15 PM",
+      tag: "Fresh fruits & dairy",
+      amount: "-₹720",
+      amountNum: 720,
+      category: "groceries",
+    },
+    {
+      id: "t3",
+      title: "Shell Auto Fuel",
+      meta: "Transport · SBI Card · 05:45 PM",
+      tag: "Fuel fill-up",
+      amount: "-₹650",
+      amountNum: 650,
+      category: "transport",
+    },
+  ],
+  // Scenario 3: Weekend & Casual Dining
+  [
+    {
+      id: "t1",
+      title: "Subway Fresh Melt",
+      meta: "Food & Dining · Cash · 12:40 PM",
+      tag: "Quick lunch",
+      amount: "-₹320",
+      amountNum: 320,
+      category: "food",
+    },
+    {
+      id: "t2",
+      title: "Instamart Essentials",
+      meta: "Groceries · Fi Money · 03:50 PM",
+      tag: "Snacks & pantry",
+      amount: "-₹480",
+      amountNum: 480,
+      category: "groceries",
+    },
+    {
+      id: "t3",
+      title: "Ola Electric Ride",
+      meta: "Transport · HDFC · 07:15 PM",
+      tag: "Evening transit",
+      amount: "-₹380",
+      amountNum: 380,
+      category: "transport",
+    },
+  ],
 ]
 
 function HeroCommandCenter() {
   const [filter, setFilter] = useState<LedgerFilter>("all")
   const reduceMotion = useReducedMotion()
 
+  // Dynamic date state with hydration safety
+  const [todayLabel, setTodayLabel] = useState<string>("Today · Live Ledger")
+  const [currentTxns, setCurrentTxns] = useState<TodayTxn[]>(DAILY_SCENARIOS[0]!)
+
+  useEffect(() => {
+    const now = new Date()
+    const weekday = now.toLocaleDateString("en-US", { weekday: "long" })
+    const day = now.getDate()
+    const month = now.toLocaleDateString("en-US", { month: "short" })
+    setTodayLabel(`Today · ${weekday}, ${day} ${month}`)
+
+    // Rotate realistic scenarios based on the day of the month
+    const scenarioIdx = day % DAILY_SCENARIOS.length
+    setCurrentTxns(DAILY_SCENARIOS[scenarioIdx]!)
+  }, [])
+
   const filteredTxns =
-    filter === "all" ? TODAY_TXNS : TODAY_TXNS.filter((t) => t.category === filter)
+    filter === "all" ? currentTxns : currentTxns.filter((t) => t.category === filter)
 
   const totalSpent = filteredTxns.reduce((acc, t) => acc + t.amountNum, 0)
   const dailyLimit = 2500
@@ -113,8 +192,8 @@ function HeroCommandCenter() {
             {/* Today Indicator */}
             <div className="flex w-fit items-center gap-1.5 rounded-lg border border-lp-line bg-lp-card px-2.5 py-1 shadow-2xs">
               <Calendar size={13} className="text-lp-em shrink-0" />
-              <span className="text-[11px] font-semibold text-lp-ink">
-                Today · Thursday, 24 Oct
+              <span className="text-[11px] font-semibold text-lp-ink" suppressHydrationWarning>
+                {todayLabel}
               </span>
             </div>
 

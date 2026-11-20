@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown } from "lucide-react"
+import { ArrowRight, ChevronDown, Menu, X } from "lucide-react"
 import posthog from "posthog-js"
 import { LpThemeToggle } from "@/components/LpThemeToggle"
 import { useAppUrl } from "@/hooks/use-app-url"
@@ -17,8 +17,9 @@ function navClass(active: boolean) {
 export function SiteHeader() {
   const pathname = usePathname()
   const [featuresOpen, setFeaturesOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-  const loginUrl = useAppUrl("/login")
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
   const onboardingUrl = useAppUrl("/onboarding")
 
   const featuresActive = pathname === "/features" || pathname.startsWith("/features/")
@@ -27,14 +28,30 @@ export function SiteHeader() {
   const guidesActive = pathname === "/guides" || pathname.startsWith("/guides/")
   const blogActive = pathname === "/blog" || pathname.startsWith("/blog/")
 
+  const [prevPathname, setPrevPathname] = useState(pathname)
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname)
+    setMobileMenuOpen(false)
+    setFeaturesOpen(false)
+  }
+
   useEffect(() => {
     function onPointerDown(event: MouseEvent) {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node)
+      ) {
+        setMobileMenuOpen(false)
+      }
       if (!menuRef.current?.contains(event.target as Node)) {
         setFeaturesOpen(false)
       }
     }
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setFeaturesOpen(false)
+      if (event.key === "Escape") {
+        setFeaturesOpen(false)
+        setMobileMenuOpen(false)
+      }
     }
     document.addEventListener("mousedown", onPointerDown)
     document.addEventListener("keydown", onKeyDown)
@@ -46,23 +63,23 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-lp-line/80 bg-lp-header-bg backdrop-blur-xl backdrop-saturate-150">
-      <div className="mx-auto flex h-16 max-w-[1120px] items-center justify-between px-5 sm:h-[68px] sm:px-8">
-        <Link href="/" className="group flex items-center gap-2.5">
+      <div className="mx-auto flex h-16 max-w-[1120px] items-center justify-between px-4 sm:h-[68px] sm:px-8">
+        <Link href="/" className="group flex items-center gap-2 sm:gap-2.5 shrink-0">
           <Image
             src="/logo.svg"
             alt="MoneySpent"
             width={28}
             height={28}
             priority
-            className="transition duration-300 group-hover:rotate-6"
+            className="transition duration-300 group-hover:rotate-6 size-6.5 sm:size-7"
           />
-          <span className="text-[17px] tracking-tight text-lp-ink">
+          <span className="text-[16px] sm:text-[17px] tracking-tight text-lp-ink">
             <span className="font-semibold">Money</span>
             <span className="font-normal text-lp-ink-soft">Spent</span>
           </span>
         </Link>
 
-        <nav aria-label="Main navigation" className="flex items-center">
+        <nav aria-label="Main navigation" className="flex items-center gap-1.5 sm:gap-2.5">
           <div className="hidden items-center gap-0.5 md:flex">
             <Link
               href="/features"
@@ -151,29 +168,92 @@ export function SiteHeader() {
             <div className="mx-3 h-4 w-px bg-lp-line" />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             <LpThemeToggle />
-            <Link
-              href={loginUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="lp-nav-link hidden rounded-lg px-3 py-2 text-[13px] font-medium sm:inline-flex"
-              onClick={() => posthog.capture("header_sign_in_clicked", { location: "header" })}
-            >
-              Sign in
-            </Link>
             <Link
               href={onboardingUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="lp-btn-primary inline-flex min-h-9 items-center rounded-full bg-lp-ink px-4 text-[13px] font-semibold text-lp-bg"
-              onClick={() => posthog.capture("header_try_it_free_clicked", { location: "header" })}
+              className="group relative inline-flex h-8.5 sm:h-9 items-center gap-1.5 sm:gap-2.5 overflow-hidden rounded-full bg-lp-ink pl-3 sm:pl-4 pr-1.5 text-[12px] sm:text-[13px] font-semibold text-lp-bg shadow-[0_2px_10px_-2px_rgba(17,20,19,0.25)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_-4px_rgba(17,20,19,0.35)] active:translate-y-0 active:scale-[0.98] dark:shadow-[0_2px_12px_-2px_rgba(0,0,0,0.6)]"
+              onClick={() => posthog.capture("header_cta_clicked", { location: "header" })}
             >
-              Try free
+              {/* Subtle hover shimmer sweep */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+              />
+
+              <span className="relative z-10 tracking-tight">
+                <span className="hidden min-[360px]:inline">Get started</span>
+                <span className="min-[360px]:hidden">Start</span>
+              </span>
+
+              {/* Interactive icon chip */}
+              <span className="relative z-10 flex h-5.5 w-5.5 sm:h-6 sm:w-6 items-center justify-center rounded-full bg-lp-bg/15 text-lp-bg transition-all duration-300 group-hover:bg-lp-em group-hover:text-white group-hover:translate-x-0.5">
+                <ArrowRight className="h-3 w-3 sm:h-3.5 sm:w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </span>
             </Link>
+
+            {/* Mobile Navigation Toggle */}
+            <button
+              type="button"
+              className="flex h-8.5 w-8.5 items-center justify-center rounded-lg border border-lp-line bg-lp-card text-lp-ink transition-colors hover:bg-lp-bg-2 md:hidden"
+              onClick={() => setMobileMenuOpen((open) => !open)}
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
         </nav>
       </div>
+
+      {/* Mobile Slide-down Menu */}
+      {mobileMenuOpen && (
+        <div
+          ref={mobileMenuRef}
+          className="border-b border-lp-line bg-lp-card/95 px-4 py-4 backdrop-blur-xl md:hidden animate-in fade-in slide-in-from-top-2 duration-200"
+        >
+          <div className="space-y-1">
+            <Link
+              href="/features"
+              className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-lp-ink transition-colors hover:bg-lp-bg-2"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <span>Features</span>
+              <span className="text-xs text-lp-ink-mute">Explore all &rarr;</span>
+            </Link>
+            <Link
+              href="/how-it-works"
+              className="block rounded-xl px-3 py-2.5 text-sm font-medium text-lp-ink transition-colors hover:bg-lp-bg-2"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              How it works
+            </Link>
+            <Link
+              href="/pricing"
+              className="block rounded-xl px-3 py-2.5 text-sm font-medium text-lp-ink transition-colors hover:bg-lp-bg-2"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/guides"
+              className="block rounded-xl px-3 py-2.5 text-sm font-medium text-lp-ink transition-colors hover:bg-lp-bg-2"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Guides
+            </Link>
+            <Link
+              href="/blog"
+              className="block rounded-xl px-3 py-2.5 text-sm font-medium text-lp-ink transition-colors hover:bg-lp-bg-2"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Blog
+            </Link>
+          </div>
+        </div>
+      )}
     </header>
   )
 }

@@ -5,12 +5,7 @@ import { ProofStrip } from "@/components/landing/ProofStrip"
 import { JsonLd } from "@/components/landing/JsonLd"
 import { faq } from "@/constant/faq"
 import { buildPageMetadata } from "@/lib/seo"
-import {
-  faqJsonLd,
-  organizationJsonLd,
-  softwareApplicationJsonLd,
-  websiteJsonLd,
-} from "@/lib/seo"
+import { faqJsonLd, organizationJsonLd, softwareApplicationJsonLd, websiteJsonLd } from "@/lib/seo"
 
 const SentenceSection = dynamic(() =>
   import("@/components/landing/SentenceSection").then((mod) => mod.SentenceSection),
@@ -41,26 +36,29 @@ const RelatedLinks = dynamic(() =>
 )
 
 const homeDescription =
-  "MoneySpent is a free personal finance tracker for expenses, budgets, accounts, and spending insights. Log daily spends in seconds—no ads, no credit card."
+  "MoneySpent is a simple, free personal finance and daily expense tracker for spending, budgets, and account balances. Log spends in 3 seconds with natural sentences—100% private, no bank login required."
 
 export const metadata = buildPageMetadata({
-  title: "MoneySpent | Free Personal Finance & Expense Tracker",
+  title: "MoneySpent | Free Personal Finance & Daily Expense Tracker",
   description: homeDescription,
   path: "/",
   keywords: [
     "MoneySpent",
-    "expense tracker app",
     "free expense tracker",
+    "daily expense tracker",
     "personal finance tracker",
-    "budget tracker",
+    "budget tracker app",
     "spending tracker",
     "account balance tracker",
+    "natural language expense tracker",
+    "private expense tracker no bank login",
+    "spreadsheet alternative expense tracker",
   ],
 })
 
 export default function Home() {
   return (
-    <main className="lp-root min-h-svh">
+    <main className="lp-root min-h-svh overflow-x-clip">
       <JsonLd data={softwareApplicationJsonLd(homeDescription)} />
       <JsonLd data={faqJsonLd(faq)} />
       <JsonLd data={organizationJsonLd()} />

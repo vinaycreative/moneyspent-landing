@@ -6,18 +6,14 @@ import { ChevronDown } from "lucide-react"
 import posthog from "posthog-js"
 import { landingFaq } from "@/constant/faq"
 
-export function FaqSection({
-  customFaq,
-}: {
-  customFaq?: { question: string; answer: string }[]
-}) {
+export function FaqSection({ customFaq }: { customFaq?: { question: string; answer: string }[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
   const items = customFaq || landingFaq
 
   return (
     <section className="py-16 lg:py-24">
-      <div className="mx-auto max-w-[1120px] px-5 sm:px-8">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <div className="mx-auto max-w-[1120px] px-4 sm:px-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <motion.div
             className="lg:sticky lg:top-28 lg:self-start"
             initial={{ opacity: 0, y: 14 }}
@@ -25,11 +21,8 @@ export function FaqSection({
             viewport={{ once: true }}
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
-            <p className="lp-section-label">
-              <span className="inline-block h-1 w-1 rounded-full bg-lp-em" />
-              FAQ
-            </p>
-            <h2 className="lp-display mt-3 text-[32px] font-semibold tracking-[-0.03em] text-lp-ink sm:text-[40px]">
+            <p className="lp-section-label">FAQ</p>
+            <h2 className="lp-display mt-3 text-[28px] min-[380px]:text-[32px] font-semibold tracking-[-0.03em] text-lp-ink sm:text-[40px]">
               Common questions
             </h2>
             <p className="mt-3 max-w-sm text-[15px] leading-relaxed text-lp-ink-mute">
@@ -68,11 +61,11 @@ export function FaqSection({
                       }}
                       aria-expanded={open}
                       aria-controls={`faq-answer-${i}`}
-                      className="flex w-full cursor-pointer items-center justify-between gap-4 px-4 py-4 text-left sm:px-5 sm:py-[18px]"
+                      className="flex w-full cursor-pointer items-center justify-between gap-4 px-3.5 py-3.5 text-left sm:px-5 sm:py-[18px]"
                     >
                       <span
                         id={`faq-question-${i}`}
-                        className="text-[15px] font-semibold tracking-tight text-lp-ink sm:text-base"
+                        className="text-[14.5px] sm:text-base font-semibold tracking-tight text-lp-ink"
                       >
                         {item.question}
                       </span>
@@ -98,7 +91,7 @@ export function FaqSection({
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                         className="m-0 overflow-hidden"
                       >
-                        <p className="px-4 pb-5 text-[14px] leading-relaxed text-lp-ink-soft sm:px-5 sm:text-[15px]">
+                        <p className="px-3.5 pb-4 sm:px-5 sm:pb-5 text-[14px] leading-relaxed text-lp-ink-soft sm:text-[15px]">
                           {item.answer}
                         </p>
                       </motion.dd>

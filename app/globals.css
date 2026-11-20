@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "../components/stageshow/stageshow.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -1059,6 +1060,7 @@ input[type="number"] {
   background: var(--lp-bg);
   color: var(--lp-ink);
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 /* Soft atmosphere — cool stone wash, not flat cream */
@@ -1135,6 +1137,12 @@ input[type="number"] {
 .lp-hero-phone {
   animation: lp-in-right 600ms cubic-bezier(0.22, 1, 0.36, 1) 80ms both;
 }
+.lp-fc-1 {
+  animation: lp-in-up 500ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+}
+.lp-fc-2 {
+  animation: lp-in-up 500ms cubic-bezier(0.22, 1, 0.36, 1) 340ms both;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .lp-hero-badge,
@@ -1142,7 +1150,9 @@ input[type="number"] {
   .lp-hero-sub,
   .lp-hero-cta,
   .lp-hero-trust,
-  .lp-hero-phone {
+  .lp-hero-phone,
+  .lp-fc-1,
+  .lp-fc-2 {
     animation: none;
   }
 }
@@ -1221,19 +1231,49 @@ input[type="number"] {
 @keyframes float-up-down {
   0%,
   100% {
-    transform: translateY(0);
+    translate: 0 0;
   }
   50% {
-    transform: translateY(-10px);
+    translate: 0 -8px;
+  }
+}
+
+@keyframes float-subtle-1 {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -5px;
+  }
+}
+
+@keyframes float-subtle-2 {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -6px;
   }
 }
 
 .animate-float-up-down {
-  animation: float-up-down 3s ease-in-out infinite;
+  animation: float-up-down 3.6s ease-in-out infinite;
+}
+
+.animate-float-card-1 {
+  animation: float-subtle-1 4.2s ease-in-out 0.4s infinite;
+}
+
+.animate-float-card-2 {
+  animation: float-subtle-2 4.8s ease-in-out 1.2s infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-float-up-down {
+  .animate-float-up-down,
+  .animate-float-card-1,
+  .animate-float-card-2 {
     animation: none;
   }
 }
